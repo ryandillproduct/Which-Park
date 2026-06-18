@@ -43,6 +43,8 @@ export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
               >
                 Showtimes ↗
               </a>
+            ) : !ride.is_open ? (
+              <span className="text-[#C4B49A] text-xs font-medium tracking-wide uppercase">Down</span>
             ) : (
               <span className="text-[#8B7355] tabular-nums">{ride.wait_time} min</span>
             )}

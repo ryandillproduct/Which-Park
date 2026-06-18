@@ -35,9 +35,14 @@ export function ParkCard({ park, headlinerNames }: Props) {
           style={{ color: '#C4B49A' }}
         />
         <div className="flex-1 min-w-0">
-          <p className="font-playfair text-lg text-[#1C1008] font-semibold truncate">
-            {park.name}
-          </p>
+          <div className="flex items-baseline justify-between gap-2">
+            <p className="font-playfair text-lg text-[#1C1008] font-semibold truncate">
+              {park.name}
+            </p>
+            {park.hours && (
+              <span className="text-xs text-[#B5A898] flex-shrink-0">{park.hours}</span>
+            )}
+          </div>
           <div className="mt-2 w-full h-1.5 rounded-full bg-[#EDE8E1] overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"

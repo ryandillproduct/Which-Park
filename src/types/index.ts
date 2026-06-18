@@ -21,12 +21,14 @@ export interface ParkMeta {
   name: string;
   silhouetteKey: 'magic-kingdom' | 'epcot' | 'hollywood-studios' | 'animal-kingdom';
   showtimesUrl: string;
+  themeParksId: string;
 }
 
 export interface ScoredPark extends ParkMeta {
   score: number;
   label: string;
   rides: Ride[];
+  hours: string | null;
 }
 
 export interface ApiResponse {
