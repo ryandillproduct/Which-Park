@@ -29,23 +29,40 @@ function MagicKingdomPath() {
   );
 }
 
-// Spaceship Earth (geodesic sphere) silhouette
+// Spaceship Earth (geodesic sphere on tripod legs)
 function EpcotPath() {
   return (
     <g>
-      <circle cx="50" cy="38" r="30" />
-      <rect x="46" y="68" width="8" height="10" rx="1" />
-      <line x1="50" y1="8" x2="50" y2="68" stroke="currentColor" strokeWidth="1.5" opacity="0.2" />
-      <line x1="20" y1="38" x2="80" y2="38" stroke="currentColor" strokeWidth="1.5" opacity="0.2" />
-      <ellipse cx="50" cy="38" rx="30" ry="12" stroke="currentColor" strokeWidth="1.5" opacity="0.2" fill="none" />
+      <circle cx="50" cy="32" r="28" />
+      <path d="M34 57 L24 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+      <path d="M50 60 L50 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+      <path d="M66 57 L76 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
     </g>
   );
 }
 
-// Chinese Theatre (Grauman's) silhouette
+// Hollywood Tower Hotel (Tower of Terror) silhouette
 function HollywoodStudiosPath() {
   return (
-    <path d="M15 70 L15 40 L20 40 L20 30 L25 25 L25 20 L30 15 L35 20 L35 25 L40 30 L40 40 L60 40 L60 30 L65 25 L65 20 L70 15 L75 20 L75 25 L80 30 L80 40 L85 40 L85 70 Z M38 70 L38 48 L62 48 L62 70 Z M22 55 L22 65 L30 65 L30 55 Z M70 55 L70 65 L78 65 L78 55 Z" />
+    <g>
+      {/* Water tower roof */}
+      <path d="M43 4 L50 0 L57 4Z" />
+      {/* Water tower barrel */}
+      <rect x="42" y="4" width="16" height="9" rx="2" />
+      {/* Narrow top section */}
+      <rect x="38" y="13" width="24" height="10" />
+      {/* Main building body */}
+      <rect x="28" y="23" width="44" height="47" />
+      {/* Elevator shaft / drop windows */}
+      <rect x="43" y="28" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
+      <rect x="43" y="41" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
+      <rect x="43" y="54" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
+      {/* Side arched windows */}
+      <rect x="30" y="34" width="7" height="9" rx="3.5" />
+      <rect x="63" y="34" width="7" height="9" rx="3.5" />
+      {/* Base/ground line */}
+      <rect x="22" y="70" width="56" height="5" rx="1" />
+    </g>
   );
 }
 
@@ -53,15 +70,13 @@ function HollywoodStudiosPath() {
 function AnimalKingdomPath() {
   return (
     <g>
-      <line x1="50" y1="68" x2="50" y2="30" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      <path d="M50 30 C50 30 35 20 30 8 C38 12 44 22 50 30" fill="currentColor" />
-      <path d="M50 30 C50 30 65 20 70 8 C62 12 56 22 50 30" fill="currentColor" />
-      <path d="M50 40 C50 40 32 32 26 18 C35 22 44 32 50 40" fill="currentColor" />
-      <path d="M50 40 C50 40 68 32 74 18 C65 22 56 32 50 40" fill="currentColor" />
-      <path d="M50 50 C50 50 36 46 30 34 C38 38 46 46 50 50" fill="currentColor" />
-      <path d="M50 50 C50 50 64 46 70 34 C62 38 54 46 50 50" fill="currentColor" />
-      <polygon points="46,68 54,68 56,72 44,72" />
-      <polygon points="44,72 56,72 58,78 42,78" />
+      {/* Wide organic canopy */}
+      <path d="M50 2 C36 2 22 10 18 22 C14 34 20 46 32 52 C36 54 40 55 44 56 L44 66 L56 66 L56 56 C60 55 64 54 68 52 C80 46 86 34 82 22 C78 10 64 2 50 2Z" />
+      {/* Thick trunk */}
+      <rect x="43" y="62" width="14" height="12" rx="2" />
+      {/* Widening base/roots */}
+      <path d="M36 74 L43 66 L57 66 L64 74Z" />
+      <rect x="32" y="74" width="36" height="4" rx="2" />
     </g>
   );
 }

@@ -38,8 +38,8 @@ export default function Home() {
         <h1 className="font-playfair text-5xl font-bold text-[#1C1008] tracking-tight">
           Just Wait
         </h1>
-        <p className="mt-2 text-[#8B7355] text-lg tracking-wide">
-          Know before you go.
+        <p className="mt-2 text-[#8B7355] text-base tracking-wide">
+          See crowd levels. Tap a park for wait times.
         </p>
       </header>
 
