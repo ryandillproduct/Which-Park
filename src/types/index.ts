@@ -29,6 +29,7 @@ export interface ScoredPark extends ParkMeta {
   label: string;
   rides: Ride[];
   hours: string | null;
+  isOpen: boolean;
 }
 
 export interface ApiResponse {

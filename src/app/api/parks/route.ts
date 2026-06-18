@@ -22,19 +22,40 @@ function formatHours(opening: string, closing: string): string {
   return `${fmt(opening)} – ${fmt(closing)}`;
 }
 
-async function fetchParkHours(themeParksId: string): Promise<string | null> {
+interface ScheduleEntry {
+  date: string;
+  type: string;
+  openingTime: string;
+  closingTime: string;
+}
+
+interface ParkSchedule {
+  hours: string | null;
+  isOpen: boolean;
+}
+
+async function fetchParkSchedule(themeParksId: string): Promise<ParkSchedule> {
   try {
     const res = await fetch(`https://api.themeparks.wiki/v1/entity/${themeParksId}/schedule`);
-    if (!res.ok) return null;
+    if (!res.ok) return { hours: null, isOpen: false };
     const data = await res.json();
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
     const operating = data.schedule?.find(
-      (s: { date: string; type: string }) => s.date === today && s.type === 'OPERATING'
-    ) as { openingTime: string; closingTime: string } | undefined;
-    if (!operating) return null;
-    return formatHours(operating.openingTime, operating.closingTime);
+      (s: ScheduleEntry) => s.date === today && s.type === 'OPERATING'
+    ) as ScheduleEntry | undefined;
+    if (!operating) return { hours: null, isOpen: false };
+
+    const nowET = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const nowMs = new Date(nowET).getTime();
+    const openMs = new Date(operating.openingTime).getTime();
+    const closeMs = new Date(operating.closingTime).getTime();
+
+    return {
+      hours: formatHours(operating.openingTime, operating.closingTime),
+      isOpen: nowMs >= openMs && nowMs < closeMs,
+    };
   } catch {
-    return null;
+    return { hours: null, isOpen: false };
   }
 }
 
@@ -42,18 +63,16 @@ export async function GET() {
   try {
     const results = await Promise.all(
       PARKS.map(async (park): Promise<ScoredPark> => {
-        const [allRides, hours] = await Promise.all([
+        const [allRides, { hours, isOpen }] = await Promise.all([
           fetchParkRides(park.id),
-          fetchParkHours(park.themeParksId),
+          fetchParkSchedule(park.themeParksId),
         ]);
         const attractionConfig = ATTRACTIONS[park.id] ?? [];
 
-        // Remove single rider lines entirely
         const withoutSingleRider = allRides.filter(
           (r) => !r.name.toLowerCase().includes('single rider')
         );
 
-        // Match against curated list and tag shows; include closed rides (shown as "Down")
         const curated = withoutSingleRider
           .map((r) => {
             const config = attractionConfig.find((a) =>
@@ -65,7 +84,6 @@ export async function GET() {
           .filter((r): r is NonNullable<typeof r> => r !== null)
           .sort((a, b) => a.name.localeCompare(b.name));
 
-        // Only use open, non-show rides for scoring
         const ridesForScoring = curated.filter((r) => !r.isShow && r.is_open);
         const score = calculateParkScore(ridesForScoring, HEADLINERS[park.id] ?? []);
 
@@ -75,6 +93,7 @@ export async function GET() {
           label: scoreLabel(score),
           rides: curated,
           hours,
+          isOpen,
         };
       })
     );
