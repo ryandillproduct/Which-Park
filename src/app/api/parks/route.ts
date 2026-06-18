@@ -101,7 +101,10 @@ export async function GET() {
       })
     );
 
-    const sorted = [...results].sort((a, b) => a.score - b.score);
+    const sorted = [...results].sort((a, b) => {
+      if (a.isOpen !== b.isOpen) return a.isOpen ? -1 : 1;
+      return a.score - b.score;
+    });
     return NextResponse.json({ parks: sorted });
   } catch (err) {
     console.error('Failed to fetch park data:', err);
