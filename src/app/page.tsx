@@ -37,12 +37,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen px-4 pt-8 pb-12 max-w-2xl mx-auto">
-      <header className="mb-6 text-center">
-        <h1 className="font-playfair text-2xl font-semibold text-[#8B7355] tracking-tight">
-          Just Wait
-        </h1>
-      </header>
-
       {loading && (
         <div className="flex justify-center items-center py-24">
           <span className="text-[#B5A898] text-sm animate-pulse">Loading parks…</span>
