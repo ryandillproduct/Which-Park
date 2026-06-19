@@ -2,6 +2,7 @@ export interface AttractionConfig {
   name: string; // partial match key against queue-times.com ride names
   isShow: boolean;
   displayName?: string; // override the API name for display
+  static?: boolean; // always inject into list regardless of API feed
 }
 
 export const ATTRACTIONS: Record<number, AttractionConfig[]> = {
@@ -69,7 +70,7 @@ export const ATTRACTIONS: Record<number, AttractionConfig[]> = {
   ],
   7: [ // Hollywood Studios
     { name: 'Alien Swirling Saucers', isShow: false },
-    { name: 'Fantasmic', isShow: true },
+    { name: 'Fantasmic', isShow: true, static: true, displayName: 'Fantasmic!' },
     { name: 'Beauty and the Beast', isShow: true, displayName: 'Beauty and the Beast – Live' },
     { name: 'Disney Junior', isShow: true },
     { name: 'Disney Villains', isShow: true },

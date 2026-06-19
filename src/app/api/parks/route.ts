@@ -124,20 +124,33 @@ export async function GET() {
           (r) => !r.name.toLowerCase().includes('single rider')
         );
 
-        const curated = withoutSingleRider
-          .map((r) => {
-            const config = attractionConfig.find((a) =>
-              r.name.toLowerCase().includes(a.name.toLowerCase())
-            );
-            if (!config) return null;
-            return {
-              ...r,
-              name: config.displayName ?? r.name,
-              isShow: config.isShow,
-            };
-          })
-          .filter((r): r is NonNullable<typeof r> => r !== null)
-          .sort((a, b) => a.name.localeCompare(b.name));
+        const staticAttractions = attractionConfig
+          .filter((a) => a.static)
+          .map((a, i) => ({
+            id: -(i + 1),
+            name: a.displayName ?? a.name,
+            is_open: true,
+            wait_time: 0,
+            last_updated: '',
+            isShow: true,
+          }));
+
+        const curated = [
+          ...withoutSingleRider
+            .map((r) => {
+              const config = attractionConfig.find((a) =>
+                !a.static && r.name.toLowerCase().includes(a.name.toLowerCase())
+              );
+              if (!config) return null;
+              return {
+                ...r,
+                name: config.displayName ?? r.name,
+                isShow: config.isShow,
+              };
+            })
+            .filter((r): r is NonNullable<typeof r> => r !== null),
+          ...staticAttractions,
+        ].sort((a, b) => a.name.localeCompare(b.name));
 
         const ridesForScoring = curated.filter((r) => !r.isShow && r.is_open);
         const score = calculateParkScore(ridesForScoring, HEADLINERS[park.id] ?? []);
