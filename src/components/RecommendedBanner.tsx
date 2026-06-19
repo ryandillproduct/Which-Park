@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Recommendation } from '@/types';
 
 interface Props {
@@ -16,37 +19,52 @@ function formatTimeUntilClose(minutes: number): string {
   return `${hrs} hr ${mins} min`;
 }
 
+function useLiveMinutesUntilClose(closingTimeMs: number | null): number | null {
+  const compute = () =>
+    closingTimeMs !== null ? Math.round((closingTimeMs - Date.now()) / 60000) : null;
+
+  const [mins, setMins] = useState<number | null>(compute);
+
+  useEffect(() => {
+    setMins(compute());
+    const interval = setInterval(() => setMins(compute()), 60000);
+    return () => clearInterval(interval);
+  }, [closingTimeMs]);
+
+  return mins;
+}
+
 function SummaryText({ recommendation }: { recommendation: Recommendation }) {
-  const { parkName, avgWaitMinutes: avg, minutesUntilClose: mins } = recommendation;
+  const { opener, avgWaitMinutes: avg, closingTimeMs } = recommendation;
+  const mins = useLiveMinutesUntilClose(closingTimeMs);
 
   if (mins !== null && mins < 60) {
     return (
       <>
-        {parkName} has the lowest crowds right now, with a <Highlight>{avg} min</Highlight> average
-        wait and only ~<Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
+        {opener}, with a <Highlight>{avg} min</Highlight> average wait and only{' '}
+        ~<Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
       </>
     );
   }
   if (mins !== null && mins < 300) {
     return (
       <>
-        {parkName} has the lowest crowds right now, with a <Highlight>{avg} min</Highlight> average
-        wait and about <Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
+        {opener}, with a <Highlight>{avg} min</Highlight> average wait and about{' '}
+        <Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
       </>
     );
   }
   if (mins !== null) {
     return (
       <>
-        {parkName} has the lowest crowds right now, with a <Highlight>{avg} min</Highlight> average
-        wait and plenty of time left to enjoy the park.
+        {opener}, with a <Highlight>{avg} min</Highlight> average wait and plenty of time left to
+        enjoy the park.
       </>
     );
   }
   return (
     <>
-      {parkName} has the lowest crowds right now, with a <Highlight>{avg} min</Highlight> average
-      wait.
+      {opener}, with a <Highlight>{avg} min</Highlight> average wait.
     </>
   );
 }
