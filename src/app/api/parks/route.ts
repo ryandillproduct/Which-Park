@@ -70,20 +70,33 @@ async function fetchParkSchedule(themeParksId: string): Promise<ParkSchedule> {
   }
 }
 
+function recommendationScore(score: number, minutesUntilClose: number | null): number {
+  if (minutesUntilClose === null || minutesUntilClose >= 300) return score;
+  if (minutesUntilClose >= 180) return score + 1;
+  if (minutesUntilClose >= 60)  return score + 3;
+  return score + 6;
+}
+
 function buildRecommendation(parks: ScoredPark[]): Recommendation | null {
   const eligible = parks.filter((p) => p.isOpen);
   if (eligible.length === 0) return null;
 
-  // Parks are already sorted: open first, then by score ascending — first eligible is best
-  const best = eligible[0];
+  const best = [...eligible].sort(
+    (a, b) =>
+      recommendationScore(a.score, a.minutesUntilClose) -
+      recommendationScore(b.score, b.minutesUntilClose)
+  )[0];
+
   const avg = best.avgWaitMinutes;
   const mins = best.minutesUntilClose;
 
   let summary: string;
   if (mins !== null && mins < 60) {
     summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and only ~${formatTimeUntilClose(mins)} until close.`;
-  } else if (mins !== null) {
+  } else if (mins !== null && mins < 300) {
     summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and about ${formatTimeUntilClose(mins)} until close.`;
+  } else if (mins !== null) {
+    summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and plenty of time left to enjoy the park.`;
   } else {
     summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait.`;
   }
