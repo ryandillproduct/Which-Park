@@ -53,11 +53,16 @@ export function ParkCard({ park, headlinerNames }: Props) {
           <p className={`font-playfair text-lg font-semibold truncate ${park.isOpen ? 'text-[#1C1008]' : 'text-[#B5A898]'}`}>
             {park.name}
           </p>
-          {(park.hours || !park.isOpen) && (
-            <p className="text-xs text-[#B5A898] mt-0.5">
-              {park.isOpen ? park.hours : park.hours ? `Closed · ${park.hours}` : 'Closed'}
-            </p>
-          )}
+          <div className="flex items-center justify-between mt-0.5">
+            {(park.hours || !park.isOpen) && (
+              <p className="text-xs text-[#B5A898]">
+                {park.isOpen ? park.hours : park.hours ? `Closed · ${park.hours}` : 'Closed'}
+              </p>
+            )}
+            {park.isOpen && park.avgWaitMinutes > 0 && (
+              <p className="text-xs text-[#B5A898]">avg {park.avgWaitMinutes} min wait</p>
+            )}
+          </div>
           <div className="mt-2 w-full h-1.5 rounded-full bg-[#EDE8E1] overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
