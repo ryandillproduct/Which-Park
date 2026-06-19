@@ -108,15 +108,26 @@ function buildRecommendation(parks: ScoredPark[]): Recommendation | null {
   const avg = best.avgWaitMinutes;
   const mins = best.minutesUntilClose;
 
+  // Check if MK is open with shorter waits but wasn't recommended due to friction penalty
+  const mk = eligible.find((p) => p.id === 6);
+  const mkHasShorterWaits = mk && best.id !== 6 && mk.avgWaitMinutes < avg;
+  const mkNote = mkHasShorterWaits
+    ? ` Magic Kingdom has shorter waits right now but requires extra transportation to reach.`
+    : '';
+
+  const opener = mkHasShorterWaits
+    ? `${best.name} is the easiest park to get into right now`
+    : `${best.name} has the lowest crowds right now`;
+
   let summary: string;
   if (mins !== null && mins < 60) {
-    summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and only ~${formatTimeUntilClose(mins)} until close.`;
+    summary = `${opener}, with a ${avg} min average wait and only ~${formatTimeUntilClose(mins)} until close.${mkNote}`;
   } else if (mins !== null && mins < 300) {
-    summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and about ${formatTimeUntilClose(mins)} until close.`;
+    summary = `${opener}, with a ${avg} min average wait and about ${formatTimeUntilClose(mins)} until close.${mkNote}`;
   } else if (mins !== null) {
-    summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait and plenty of time left to enjoy the park.`;
+    summary = `${opener}, with a ${avg} min average wait and plenty of time left to enjoy the park.${mkNote}`;
   } else {
-    summary = `${best.name} has the lowest crowds right now, with a ${avg} min average wait.`;
+    summary = `${opener}, with a ${avg} min average wait.${mkNote}`;
   }
 
   return {
