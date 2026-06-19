@@ -2,12 +2,9 @@ import { ImageResponse } from 'next/og';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
+export const runtime = 'edge';
 
-export default async function OgImage() {
-  const playfair = await fetch(
-    'https://fonts.gstatic.com/s/playfairdisplay/v37/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xRbPQ.woff2'
-  ).then((r) => r.arrayBuffer());
-
+export default function OgImage() {
   return new ImageResponse(
     (
       <div
@@ -22,14 +19,14 @@ export default async function OgImage() {
           position: 'relative',
         }}
       >
-        {/* Gold accent bar */}
+        {/* Gold top bar */}
         <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: 8,
+            height: 10,
             backgroundColor: '#F5C842',
           }}
         />
@@ -37,8 +34,8 @@ export default async function OgImage() {
         {/* App name */}
         <div
           style={{
-            fontFamily: 'Playfair Display',
-            fontSize: 96,
+            fontFamily: 'Georgia, serif',
+            fontSize: 108,
             fontWeight: 700,
             color: '#1C1008',
             lineHeight: 1,
@@ -51,12 +48,11 @@ export default async function OgImage() {
         {/* Tagline */}
         <div
           style={{
-            fontFamily: 'Playfair Display',
-            fontSize: 36,
+            fontFamily: 'Georgia, serif',
+            fontSize: 38,
             fontWeight: 400,
             color: '#8B7355',
-            marginTop: 24,
-            letterSpacing: '0px',
+            marginTop: 28,
           }}
         >
           The question isn't if. It's where.
@@ -71,29 +67,13 @@ export default async function OgImage() {
             fontFamily: 'sans-serif',
             fontSize: 22,
             color: '#C4B49A',
-            letterSpacing: '2px',
+            letterSpacing: '3px',
           }}
         >
           WHICHPARK.COM
         </div>
       </div>
     ),
-    {
-      ...size,
-      fonts: [
-        {
-          name: 'Playfair Display',
-          data: playfair,
-          style: 'normal',
-          weight: 400,
-        },
-        {
-          name: 'Playfair Display',
-          data: playfair,
-          style: 'normal',
-          weight: 700,
-        },
-      ],
-    }
+    { ...size }
   );
 }
