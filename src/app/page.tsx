@@ -36,7 +36,7 @@ export default function Home() {
   }, [loadParks]);
 
   return (
-    <main className="min-h-screen px-4 pt-8 pb-12 max-w-2xl mx-auto">
+    <main className="min-h-screen px-4 pt-4 pb-12 max-w-2xl mx-auto">
       {loading && (
         <div className="flex justify-center items-center py-24">
           <span className="text-[#B5A898] text-sm animate-pulse">Loading parks…</span>
@@ -55,14 +55,14 @@ export default function Home() {
         <>
           <RecommendedBanner recommendation={recommendation} />
 
-          <p className="mt-4 mb-6 text-center inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#F5C842]/15 text-[#8B7355] text-xs w-full justify-center">
-            <span className="text-base" aria-hidden="true">👆</span>
-            Tap a park for attraction wait times
-          </p>
-
-          <p className="text-xs font-semibold text-[#8B7355] uppercase tracking-widest mb-3">
-            Live park crowd levels
-          </p>
+          <div className="mb-3">
+            <p className="text-xs font-semibold text-[#8B7355] uppercase tracking-widest">
+              Live park crowd levels
+            </p>
+            <p className="mt-0.5 text-xs text-[#B5A898]">
+              Select a park to view attraction wait times
+            </p>
+          </div>
 
           <div className="space-y-4">
             {parks.map((park, index) => (
