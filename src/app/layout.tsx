@@ -7,11 +7,11 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
 export const metadata: Metadata = {
-  title: 'Just Wait',
-  description: 'Know before you go. Live Walt Disney World crowd scores.',
+  title: 'Park Pulse',
+  description: 'Live Walt Disney World crowd levels and attraction wait times.',
   openGraph: {
-    title: 'Just Wait',
-    description: 'Know before you go. Live Walt Disney World crowd scores.',
+    title: 'Park Pulse',
+    description: 'Live Walt Disney World crowd levels and attraction wait times.',
   },
 };
 
