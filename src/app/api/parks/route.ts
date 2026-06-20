@@ -74,7 +74,7 @@ function recommendationScore(score: number, park: ScoredPark): number {
   }
 
   // MK transportation friction penalty — no direct parking for locals
-  if (park.id === 6) adjusted += 2;
+  if (park.id === 6) adjusted += 1.5;
 
   // Hollywood Studios show-value boost before 5 PM Eastern
   if (park.id === 7) {
@@ -183,7 +183,7 @@ export async function GET() {
 
     const sorted = [...results].sort((a, b) => {
       if (a.isOpen !== b.isOpen) return a.isOpen ? -1 : 1;
-      return a.score - b.score;
+      return recommendationScore(a.score, a) - recommendationScore(b.score, b);
     });
 
     const recommendation = buildRecommendation(sorted);
