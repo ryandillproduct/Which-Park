@@ -35,36 +35,40 @@ function useLiveMinutesUntilClose(closingTimeMs: number | null): number | null {
 }
 
 function SummaryText({ recommendation }: { recommendation: Recommendation }) {
-  const { opener, avgWaitMinutes: avg, closingTimeMs } = recommendation;
+  const { opener, avgWaitMinutes: avg, crowdScore, closingTimeMs } = recommendation;
   const mins = useLiveMinutesUntilClose(closingTimeMs);
+
+  const metrics = (
+    <>
+      a <Highlight>{avg} min</Highlight> average wait and a crowd level of{' '}
+      <Highlight>{crowdScore}/10</Highlight>
+    </>
+  );
 
   if (mins !== null && mins < 60) {
     return (
       <>
-        {opener}, with a <Highlight>{avg} min</Highlight> average wait and only{' '}
-        ~<Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
+        {opener}, with {metrics} and only ~<Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
       </>
     );
   }
   if (mins !== null && mins < 300) {
     return (
       <>
-        {opener}, with a <Highlight>{avg} min</Highlight> average wait and about{' '}
-        <Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
+        {opener}, with {metrics} and about <Highlight>{formatTimeUntilClose(mins)}</Highlight> until close.
       </>
     );
   }
   if (mins !== null) {
     return (
       <>
-        {opener}, with a <Highlight>{avg} min</Highlight> average wait and plenty of time left to
-        enjoy the park.
+        {opener}, with {metrics} and plenty of time left to enjoy the park.
       </>
     );
   }
   return (
     <>
-      {opener}, with a <Highlight>{avg} min</Highlight> average wait.
+      {opener}, with {metrics}.
     </>
   );
 }

@@ -38,6 +38,7 @@ export interface Recommendation {
   parkId: number;
   parkName: string;
   avgWaitMinutes: number;
+  crowdScore: number;
   closingTimeMs: number | null;
   opener: string;
 }

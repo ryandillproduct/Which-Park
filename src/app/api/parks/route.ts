@@ -115,6 +115,7 @@ function buildRecommendation(parks: ScoredPark[]): Recommendation | null {
     parkId: best.id,
     parkName: best.name,
     avgWaitMinutes: avg,
+    crowdScore: best.score,
     closingTimeMs: best.closingTimeMs,
     opener,
   };
