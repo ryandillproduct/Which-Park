@@ -99,19 +99,10 @@ function buildRecommendation(parks: ScoredPark[]): Recommendation | null {
   const avg = best.avgWaitMinutes;
 
   const mk = eligible.find((p) => p.id === 6);
-  const hasLowestCrowdScore = eligible.every((p) => p.id === best.id || best.score <= p.score);
   const mkHasLowerCrowdScore = mk && best.id !== 6 && mk.score < best.score;
 
   let opener: string;
-  if (hasLowestCrowdScore) {
-    if (best.score <= 3) {
-      opener = `${best.name} has low crowds right now`;
-    } else if (best.score <= 6) {
-      opener = `${best.name} has moderate crowds right now`;
-    } else {
-      opener = `${best.name} has the best crowd conditions available right now`;
-    }
-  } else if (mkHasLowerCrowdScore) {
+  if (mkHasLowerCrowdScore) {
     opener = `${best.name} is our top pick right now — direct parking gives it the edge over Magic Kingdom's transit-only access`;
   } else {
     opener = `${best.name} is our top pick right now`;
