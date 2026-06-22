@@ -8,11 +8,11 @@ This app is built for the people who visit often.
 
 The question isn't whether you should go to Disney today. The question is where you should go.
 
-Using current park conditions, crowd levels, and attraction wait times, the app helps you quickly decide which park offers the best experience right now.
+Using current park conditions, crowd levels, attraction wait times, and more, the app helps you quickly decide which park offers the best experience right now.
 
 ## Features
 
-* Real-time park recommendations
+* Real-time park recommendations powered by Go Score
 * Live attraction wait times
 * Park crowd insights
 * Mobile-first experience
