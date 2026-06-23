@@ -131,16 +131,7 @@ function buildRecommendation(parks: ScoredPark[]): Recommendation | null {
   const best = [...eligible].sort(compareParks)[0];
 
   const avg = best.avgWaitMinutes;
-
-  const mk = eligible.find((p) => p.id === 6);
-  const mkHasLowerCrowdScore = mk && best.id !== 6 && mk.score < best.score;
-
-  let opener: string;
-  if (mkHasLowerCrowdScore) {
-    opener = `${best.name} is our top pick right now — direct parking gives it the edge over Magic Kingdom's transit-only access`;
-  } else {
-    opener = `${best.name} is our top pick right now`;
-  }
+  const opener = `${best.name} is our top pick right now`;
 
   return {
     parkId: best.id,
