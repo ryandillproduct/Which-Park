@@ -25,8 +25,8 @@ export function GoScoreInfoModal({ onClose }: Props) {
           </button>
         </div>
         <p className="text-sm text-[#8B7355]">
-          Go Score (0–10) reflects how good a time it is to visit each park right now —
-          the higher, the better. It factors in live wait times, crowd levels,
+          Go Score (0–10) rates how good each park is to visit right now. The higher the
+          score, the better the visit. It factors in live wait times, crowd levels,
           how much time is left to enjoy the park, and a few park-specific quirks we&apos;ve
           baked in from local knowledge.
         </p>
