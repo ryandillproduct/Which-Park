@@ -11,7 +11,8 @@ export function GoScoreInfoModal({ onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="max-w-sm w-full rounded-2xl bg-white p-6 shadow-lg"
+        data-testid="goscore-modal-panel"
+        className="max-w-sm w-full rounded-2xl bg-white p-6 shadow-lg animate-bounce-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3 mb-3">
