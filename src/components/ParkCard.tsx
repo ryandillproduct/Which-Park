@@ -47,7 +47,9 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
 
   return (
     <div
-      className="relative rounded-2xl bg-white overflow-hidden shadow-[0_4px_16px_rgba(28,16,8,0.06)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(28,16,8,0.1)] hover:-translate-y-0.5"
+      data-testid="park-card"
+      className={`relative rounded-2xl bg-white overflow-hidden shadow-[0_4px_16px_rgba(28,16,8,0.06)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 ${rank !== null ? 'animate-card-stagger-in' : ''} ${rank === 1 ? 'animate-glow-pulse' : ''}`}
+      style={rank !== null ? { animationDelay: `${(rank - 1) * 0.12}s` } : undefined}
     >
       {rank !== null && (
         <div
@@ -65,7 +67,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
       >
         <div
           data-testid="icon-badge"
-          className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${park.isOpen ? 'icon-badge-open' : ''}`}
+          className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${park.isOpen ? 'icon-badge-open animate-icon-pulse' : ''}`}
           style={park.isOpen ? { background: 'linear-gradient(135deg, #FBF0DC, #F0DCA8)' } : undefined}
         >
           <ParkSilhouette

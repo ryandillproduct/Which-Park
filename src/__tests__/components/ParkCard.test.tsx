@@ -64,4 +64,31 @@ describe('ParkCard', () => {
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByTestId('ride-list-wrapper')).not.toHaveClass('expand-grid-open');
   });
+
+  it('applies the stagger entrance animation with a delay based on rank', () => {
+    render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
+    const card = screen.getByTestId('park-card');
+    expect(card).toHaveClass('animate-card-stagger-in');
+    expect(card.style.animationDelay).toBe('0.12s');
+  });
+
+  it('applies the continuous glow pulse only to the #1 ranked card', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    expect(screen.getByTestId('park-card')).toHaveClass('animate-glow-pulse');
+  });
+
+  it('does not apply the glow pulse to a lower-ranked card', () => {
+    render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
+    expect(screen.getByTestId('park-card')).not.toHaveClass('animate-glow-pulse');
+  });
+
+  it('applies the icon idle pulse when the park is open', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    expect(screen.getByTestId('icon-badge')).toHaveClass('animate-icon-pulse');
+  });
+
+  it('does not apply the icon idle pulse when the park is closed', () => {
+    render(<ParkCard park={closedPark} rank={null} headlinerNames={[]} />);
+    expect(screen.getByTestId('icon-badge')).not.toHaveClass('animate-icon-pulse');
+  });
 });
