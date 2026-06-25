@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScoredPark } from '@/types';
 import { ParkSilhouette } from './ParkSilhouette';
 import { RideList } from './RideList';
@@ -38,6 +38,71 @@ function goScoreBarStyle(goScore: number): { gradient: string; glow: string } {
     gradient: `linear-gradient(90deg, ${light}, ${dark})`,
     glow: `0 0 12px rgba(${r},${g},${b},0.5)`,
   };
+}
+
+// Matches the rounding RecommendedBanner's deleted SummaryText used to use.
+function formatTimeUntilClose(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (mins === 0) return `${hrs} hr${hrs > 1 ? 's' : ''}`;
+  return `${hrs} hr ${mins} min`;
+}
+
+function useLiveMinutesUntilClose(closingTimeMs: number | null): number | null {
+  const compute = () =>
+    closingTimeMs !== null ? Math.round((closingTimeMs - Date.now()) / 60000) : null;
+
+  const [mins, setMins] = useState<number | null>(compute);
+
+  useEffect(() => {
+    setMins(compute());
+    const interval = setInterval(() => setMins(compute()), 60000);
+    return () => clearInterval(interval);
+  }, [closingTimeMs]);
+
+  return mins;
+}
+
+function timeFramingSentence(mins: number | null): string {
+  if (mins === null) return '';
+  if (mins < 60) return ` Only ~${formatTimeUntilClose(mins)} left until close.`;
+  if (mins < 300) return ` About ${formatTimeUntilClose(mins)} left until close.`;
+  return " There's plenty of time left to enjoy the park.";
+}
+
+// route.ts's tiebreakerReason() always returns one of these two exact
+// prefixes followed by the losing park's name — parse it back apart so we
+// can fold it into the strip's wording instead of showing it as a second note.
+function parseTiebreakerNote(note: string): { dimension: string; loserName: string } | null {
+  const waitPrefix = 'Lower average wait than ';
+  const attractionsPrefix = 'More open attractions than ';
+  if (note.startsWith(waitPrefix)) {
+    return { dimension: 'average wait', loserName: note.slice(waitPrefix.length) };
+  }
+  if (note.startsWith(attractionsPrefix)) {
+    return { dimension: 'open attractions', loserName: note.slice(attractionsPrefix.length) };
+  }
+  return null;
+}
+
+function TopPickStrip({ park }: { park: ScoredPark }) {
+  const mins = useLiveMinutesUntilClose(park.closingTimeMs);
+  const tie = park.tiebreakerNote ? parseTiebreakerNote(park.tiebreakerNote) : null;
+
+  return (
+    <div data-testid="top-pick-strip" className="mt-2 rounded-lg bg-[#FDF3D6] px-2.5 py-2">
+      <p className="text-[11px] leading-snug text-[#1C1008]">
+        <span className="font-bold text-[#8B6914]">
+          {tie
+            ? `Top pick right now — edges out ${tie.loserName} on ${tie.dimension}.`
+            : 'Top pick right now —'}
+        </span>{' '}
+        {park.avgWaitMinutes} min avg wait, crowd level {park.score}/10.
+        {timeFramingSentence(mins)}
+      </p>
+    </div>
+  );
 }
 
 export function ParkCard({ park, rank, headlinerNames }: Props) {
@@ -101,8 +166,12 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
                 />
               </div>
               <p className="text-xs text-[#B5A898] mt-1">Go Score · {(Math.round(park.goScore * 2) / 2).toFixed(1)}/10</p>
-              {park.tiebreakerNote && (
-                <p className="text-xs text-[#B5A898] mt-0.5 italic">{park.tiebreakerNote}</p>
+              {rank === 1 ? (
+                <TopPickStrip park={park} />
+              ) : (
+                park.tiebreakerNote && (
+                  <p className="text-xs text-[#B5A898] mt-0.5 italic">{park.tiebreakerNote}</p>
+                )
               )}
             </>
           )}

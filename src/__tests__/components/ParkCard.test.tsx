@@ -15,7 +15,7 @@ const openPark: ScoredPark = {
   ],
   hours: '9 AM – 10 PM',
   isOpen: true,
-  closingTimeMs: Date.now() + 5 * 60 * 60 * 1000,
+  closingTimeMs: Date.now() + 90 * 60 * 1000, // 90 min from now
   avgWaitMinutes: 20,
   goScore: 7,
   openAttractionCount: 12,
@@ -90,5 +90,45 @@ describe('ParkCard', () => {
   it('does not apply the icon idle pulse when the park is closed', () => {
     render(<ParkCard park={closedPark} rank={null} headlinerNames={[]} />);
     expect(screen.getByTestId('icon-badge')).not.toHaveClass('animate-icon-pulse');
+  });
+
+  it('renders a top pick strip with avg wait, crowd score, and time framing for the #1 card', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    const strip = screen.getByTestId('top-pick-strip');
+    expect(strip).toHaveTextContent('Top pick right now');
+    expect(strip).toHaveTextContent('20 min avg wait, crowd level 4/10');
+    expect(strip).toHaveTextContent('About 1 hr 30 min left until close.');
+  });
+
+  it('does not render the top pick strip for lower-ranked cards', () => {
+    render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
+    expect(screen.queryByTestId('top-pick-strip')).not.toBeInTheDocument();
+  });
+
+  it('shows the imminent-closing time framing when under 60 minutes remain', () => {
+    const almostClosed: ScoredPark = { ...openPark, closingTimeMs: Date.now() + 30 * 60 * 1000 };
+    render(<ParkCard park={almostClosed} rank={1} headlinerNames={[]} />);
+    expect(screen.getByTestId('top-pick-strip')).toHaveTextContent('Only ~30 min left until close.');
+  });
+
+  it('renders the standalone tiebreaker note for non-#1 cards as before', () => {
+    const tied: ScoredPark = { ...openPark, tiebreakerNote: 'Lower average wait than Hollywood Studios' };
+    render(<ParkCard park={tied} rank={2} headlinerNames={[]} />);
+    expect(screen.getByText('Lower average wait than Hollywood Studios')).toBeInTheDocument();
+    expect(screen.queryByTestId('top-pick-strip')).not.toBeInTheDocument();
+  });
+
+  it('folds an average-wait tiebreaker reason into the top pick strip instead of a separate note', () => {
+    const tied: ScoredPark = { ...openPark, tiebreakerNote: 'Lower average wait than Hollywood Studios' };
+    render(<ParkCard park={tied} rank={1} headlinerNames={[]} />);
+    const strip = screen.getByTestId('top-pick-strip');
+    expect(strip).toHaveTextContent('edges out Hollywood Studios on average wait');
+    expect(screen.queryByText('Lower average wait than Hollywood Studios')).not.toBeInTheDocument();
+  });
+
+  it('folds an open-attractions tiebreaker reason into the top pick strip using the right wording', () => {
+    const tied: ScoredPark = { ...openPark, tiebreakerNote: 'More open attractions than EPCOT' };
+    render(<ParkCard park={tied} rank={1} headlinerNames={[]} />);
+    expect(screen.getByTestId('top-pick-strip')).toHaveTextContent('edges out EPCOT on open attractions');
   });
 });
