@@ -32,4 +32,9 @@ describe('globals.css motion utilities', () => {
   it('respects prefers-reduced-motion for the looping/entrance animations', () => {
     expect(css).toContain('prefers-reduced-motion: no-preference');
   });
+
+  it('defines the ride row entrance animation', () => {
+    expect(css).toContain('@keyframes rideRowIn');
+    expect(css).toContain('.animate-ride-row-in');
+  });
 });

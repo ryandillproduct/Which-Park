@@ -94,3 +94,18 @@ body {
     transition-duration: 0.01s;
   }
 }
+
+/* ===== Motion: staggered ride row entrance when a card expands ===== */
+@keyframes rideRowIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-ride-row-in {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-ride-row-in {
+    opacity: 0;
+    animation: rideRowIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
