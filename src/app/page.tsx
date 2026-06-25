@@ -65,7 +65,7 @@ export default function Home() {
 
       {!loading && !error && (
         <>
-          <RecommendedBanner recommendation={recommendation} />
+          {!recommendation && <RecommendedBanner />}
 
           <div className="mb-3">
             <div className="flex items-center gap-1.5">
