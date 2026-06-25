@@ -47,39 +47,37 @@ function MagicKingdomPath() {
   );
 }
 
-// Spaceship Earth (geodesic sphere on tripod legs)
+// Spaceship Earth (geodesic sphere with three filled tripod legs and an
+// inner highlight circle). Drawn at 0-64 scale and repositioned/rescaled
+// via the same wrapping transform as MagicKingdomPath/AnimalKingdomPath.
 function EpcotPath() {
   return (
-    <g>
-      <circle cx="50" cy="32" r="28" />
-      <path d="M34 57 L24 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-      <path d="M50 60 L50 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-      <path d="M66 57 L76 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+    <g transform="translate(50,2) scale(1.2) translate(-32,0)">
+      <circle cx="32" cy="28" r="20" />
+      <path d="M20 44 L12 60 L18 60 L24 46Z" />
+      <path d="M32 46 L32 60 L38 60 L38 46Z" />
+      <path d="M44 44 L52 60 L46 60 L40 46Z" />
+      <circle cx="32" cy="28" r="15" fill="currentColor" opacity="0.25" />
     </g>
   );
 }
 
-// Hollywood Tower Hotel (Tower of Terror) silhouette
+// Sorcerer Mickey hat — the park's classic icon. Tall cone with a flared
+// brim, a crescent moon, and six stars scattered across the cone (the real
+// hat has stars/moons printed on the fabric). Same 0-64-to-viewBox
+// transform as the other redrawn icons.
 function HollywoodStudiosPath() {
   return (
-    <g>
-      {/* Water tower roof */}
-      <path d="M43 4 L50 0 L57 4Z" />
-      {/* Water tower barrel */}
-      <rect x="42" y="4" width="16" height="9" rx="2" />
-      {/* Narrow top section */}
-      <rect x="38" y="13" width="24" height="10" />
-      {/* Main building body */}
-      <rect x="28" y="23" width="44" height="47" />
-      {/* Elevator shaft / drop windows */}
-      <rect x="43" y="28" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
-      <rect x="43" y="41" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
-      <rect x="43" y="54" width="14" height="7" rx="1" fill="currentColor" opacity="0.3" />
-      {/* Side arched windows */}
-      <rect x="30" y="34" width="7" height="9" rx="3.5" />
-      <rect x="63" y="34" width="7" height="9" rx="3.5" />
-      {/* Base/ground line */}
-      <rect x="22" y="70" width="56" height="5" rx="1" />
+    <g transform="translate(50,2) scale(1.2) translate(-32,0)">
+      <path d="M32 1 C29 1 19 24 12 46 C19 41 26 38 32 38 C38 38 45 41 52 46 C45 24 35 1 32 1 Z" />
+      <ellipse cx="32" cy="48" rx="27" ry="7.5" />
+      <path d="M36 17 a3.2 3.2 0 1 0 0 6.4 a2.4 2.4 0 1 1 0 -6.4Z" fill="currentColor" opacity="0.65" />
+      <path d="M19 30 L20.4 33 L23.6 33.5 L21.3 35.7 L21.9 38.9 L19 37.3 L16.1 38.9 L16.7 35.7 L14.4 33.5 L17.6 33Z" fill="currentColor" opacity="0.6" />
+      <path d="M27 13 L27.8 14.8 L29.7 15.1 L28.3 16.4 L28.6 18.3 L27 17.4 L25.4 18.3 L25.7 16.4 L24.3 15.1 L26.2 14.8Z" fill="currentColor" opacity="0.6" />
+      <path d="M41 27 L41.8 28.6 L43.6 28.9 L42.3 30.1 L42.6 31.9 L41 31 L39.4 31.9 L39.7 30.1 L38.4 28.9 L40.2 28.6Z" fill="currentColor" opacity="0.6" />
+      <path d="M23 22 L23.5 23.3 L24.9 23.5 L23.9 24.5 L24.2 25.9 L23 25.2 L21.8 25.9 L22.1 24.5 L21.1 23.5 L22.5 23.3Z" fill="currentColor" opacity="0.6" />
+      <path d="M33 33 L33.6 34.6 L35.3 34.8 L34 36 L34.3 37.7 L33 36.9 L31.7 37.7 L32 36 L30.7 34.8 L32.4 34.6Z" fill="currentColor" opacity="0.6" />
+      <path d="M44 21 L44.4 22.1 L45.6 22.3 L44.7 23.1 L45 24.3 L44 23.7 L43 24.3 L43.3 23.1 L42.4 22.3 L43.6 22.1Z" fill="currentColor" opacity="0.6" />
     </g>
   );
 }

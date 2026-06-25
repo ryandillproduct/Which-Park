@@ -13,8 +13,18 @@ describe('ParkSilhouette', () => {
     expect(container.querySelectorAll('circle').length).toBe(7);
   });
 
-  it('still renders EPCOT and Hollywood Studios without throwing', () => {
-    expect(() => render(<ParkSilhouette parkKey="epcot" />)).not.toThrow();
-    expect(() => render(<ParkSilhouette parkKey="hollywood-studios" />)).not.toThrow();
+  it('renders the EPCOT sphere with a highlight circle and three tripod legs', () => {
+    const { container } = render(<ParkSilhouette parkKey="epcot" />);
+    // main sphere + inner highlight circle = 2 circles
+    expect(container.querySelectorAll('circle').length).toBe(2);
+    // three filled tripod leg paths
+    expect(container.querySelectorAll('path').length).toBe(3);
+  });
+
+  it('renders the Hollywood Studios Sorcerer hat with a brim, moon, and six stars', () => {
+    const { container } = render(<ParkSilhouette parkKey="hollywood-studios" />);
+    expect(container.querySelectorAll('ellipse').length).toBe(1);
+    // hat outline + moon + 6 stars = 8 paths
+    expect(container.querySelectorAll('path').length).toBe(8);
   });
 });
