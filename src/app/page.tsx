@@ -80,9 +80,11 @@ export default function Home() {
                 i
               </button>
             </div>
-            <p className="mt-0.5 text-xs text-[#B5A898]">
-              Tap a park to see attraction wait times
-            </p>
+            {recommendation && (
+              <p className="mt-0.5 text-xs text-[#B5A898]">
+                Tap a park to see attraction wait times
+              </p>
+            )}
           </div>
 
           {showGoScoreInfo && <GoScoreInfoModal onClose={() => setShowGoScoreInfo(false)} />}

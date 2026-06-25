@@ -45,9 +45,10 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
         </div>
       )}
       <button
-        onClick={() => setExpanded((v) => !v)}
-        className="w-full text-left p-5 flex items-center gap-4"
+        onClick={() => park.isOpen && setExpanded((v) => !v)}
+        className={`w-full text-left p-5 flex items-center gap-4 ${park.isOpen ? '' : 'cursor-default'}`}
         aria-expanded={expanded}
+        aria-disabled={!park.isOpen}
       >
         <ParkSilhouette
           parkKey={park.silhouetteKey}
@@ -82,7 +83,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
         </div>
       </button>
 
-      {expanded && (
+      {expanded && park.isOpen && (
         <div className="px-5 pb-5">
           <div className="border-t border-black/[0.06] pt-4">
             {park.isOpen && park.avgWaitMinutes > 0 && (
