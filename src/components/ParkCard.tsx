@@ -188,6 +188,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
               {park.isOpen && park.avgWaitMinutes > 0 && (
                 <p className="text-xs text-[#B5A898] mb-3">
                   <span className="font-semibold text-[#8B7355]">{park.avgWaitMinutes} min</span> avg wait across open attractions
+                  {' '}· <span className="text-[#E8A93A]">★</span> Headliner attraction
                 </p>
               )}
               <RideList rides={park.rides} headlinerNames={headlinerNames} showtimesUrl={park.showtimesUrl} />

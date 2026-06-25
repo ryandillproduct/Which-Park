@@ -131,4 +131,9 @@ describe('ParkCard', () => {
     render(<ParkCard park={tied} rank={1} headlinerNames={[]} />);
     expect(screen.getByTestId('top-pick-strip')).toHaveTextContent('edges out EPCOT on open attractions');
   });
+
+  it('shows the headliner legend next to the avg wait line', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    expect(screen.getByText(/Headliner attraction/)).toBeInTheDocument();
+  });
 });
