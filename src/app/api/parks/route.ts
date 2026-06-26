@@ -201,7 +201,12 @@ export async function GET() {
             })
             .filter((r): r is NonNullable<typeof r> => r !== null),
           ...staticAttractions,
-        ].sort((a, b) => a.name.localeCompare(b.name));
+        ]
+          .sort((a, b) => a.name.localeCompare(b.name))
+          // Stable sort (guaranteed by the JS spec since ES2019) — this only
+          // moves shows to the end, it doesn't disturb the alphabetical order
+          // within the non-show group or within the show group.
+          .sort((a, b) => (a.isShow ? 1 : 0) - (b.isShow ? 1 : 0));
 
         const ridesForScoring = curated.filter((r) => !r.isShow && r.is_open);
         const score = calculateParkScore(ridesForScoring, HEADLINERS[park.id] ?? []);
