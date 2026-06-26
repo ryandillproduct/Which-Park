@@ -54,7 +54,7 @@ export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
                 <span className="text-sm font-semibold text-[#C4B49A]">—</span>
               ) : !ride.is_open ? (
                 <span data-testid="wait-chip" className={`${CHIP_BASE} bg-[#F0EBE3] text-[#998a73] tracking-wide uppercase`}>
-                  Down
+                  Unavailable
                 </span>
               ) : (
                 <span data-testid="wait-chip" className={`${CHIP_BASE} ${waitTimeChipClass(ride.wait_time)} tabular-nums`}>

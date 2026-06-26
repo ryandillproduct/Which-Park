@@ -52,7 +52,7 @@ describe('RideList', () => {
 
   it('shows a neutral gray chip for closed rides', () => {
     render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
-    const chip = screen.getByText('Down');
+    const chip = screen.getByText('Unavailable');
     expect(chip).toHaveClass('bg-[#F0EBE3]');
   });
 
