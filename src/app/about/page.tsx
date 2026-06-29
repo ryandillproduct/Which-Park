@@ -31,22 +31,25 @@ export default function About() {
       <div className="space-y-4 text-[#5C4A2A] leading-relaxed">
         <p className="font-playfair text-xl font-semibold text-[#1C1008]">Hi, I&apos;m Ryan.</p>
         <p>
-          I visit the Disney parks almost every day. Somewhere along the way, I kept running
-          into the same problem: every crowd-tracking site out there is built for vacationers
-          planning weeks or months ahead, offering &quot;best time to visit in October&quot;
-          type advice.
+          As a local who visits the parks often, I kept running into the same problem: most
+          crowd-tracking tools are built for vacationers planning weeks or months in advance.
+          They are great for questions like &quot;What is the best week to visit in October?&quot;
         </p>
         <p>
-          But that&apos;s not the question that I, and a lot of locals who visit the parks
-          regularly, actually have. We just want to know:{' '}
-          <span className="font-semibold text-[#1C1008]">which park should I go to right now?</span>
+          But that is not the question I usually need answered. For locals, passholders, and
+          frequent visitors, the question is much more immediate:{' '}
+          <span className="font-semibold text-[#1C1008]">Which park should I go to right now?</span>
         </p>
         <p>
-          So I built WhichPark? to answer exactly that. Using live data, it factors in things
-          locals actually care about, like real crowd levels and ease of access to certain
-          parks, including the extra transit steps it takes to actually reach Magic Kingdom&apos;s
-          gates. No forecasts. No planning calendars. Just today, and one clear answer:{' '}
-          <span className="font-semibold text-[#1C1008]">which park is the best to visit right now.</span>
+          So I built WhichPark? to answer that specific question. The app uses live park data
+          to compare the factors that matter for a same-day visit, including current crowd
+          levels, average wait times, park hours, and access friction like the extra transit
+          steps required to reach Magic Kingdom.
+        </p>
+        <p>
+          No long-range forecasts. No planning calendars. Just today&apos;s conditions,
+          translated into one clear recommendation:{' '}
+          <span className="font-semibold text-[#1C1008]">which park looks best to visit right now.</span>
         </p>
       </div>
 
@@ -54,6 +57,9 @@ export default function About() {
         <Link href="/" className="text-sm text-[#8B7355] underline underline-offset-2">
           &larr; Back to today&apos;s rankings
         </Link>
+        <p className="mt-6 text-xs text-[#B5A898]">
+          WhichPark? is an independent project and is not affiliated with or endorsed by Disney.
+        </p>
       </div>
     </main>
   );
