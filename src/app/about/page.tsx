@@ -9,8 +9,15 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <main className="min-h-screen px-4 pt-10 pb-16 max-w-xl mx-auto">
-      <div data-testid="about-header" className="flex flex-col items-center text-center mb-8 animate-bounce-in">
+    <main className="min-h-screen px-4 pt-6 pb-16 max-w-xl mx-auto">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1.5 -ml-1 px-2 py-2 text-sm text-[#8B7355] hover:text-[#5C4A2A] transition-colors"
+      >
+        &larr; Back to today&apos;s rankings
+      </Link>
+
+      <div data-testid="about-header" className="flex flex-col items-center text-center mt-4 mb-8 animate-bounce-in">
         <div
           data-testid="about-photo-frame"
           className="w-56 h-72 rounded-2xl overflow-hidden border-2 border-[#F5C842] mb-4 shadow-[0_8px_24px_rgba(28,16,8,0.12)]"
