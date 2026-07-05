@@ -116,6 +116,14 @@ describe('ParkCard', () => {
     expect(screen.getByTestId('top-pick-strip')).toHaveTextContent('Only ~30 min left until close.');
   });
 
+  it('omits the time framing entirely when the closing time is in the past (stale data)', () => {
+    const pastClose: ScoredPark = { ...openPark, closingTimeMs: Date.now() - 618 * 60 * 1000 };
+    render(<ParkCard park={pastClose} rank={1} headlinerNames={[]} />);
+    const strip = screen.getByTestId('top-pick-strip');
+    expect(strip).not.toHaveTextContent('left until close');
+    expect(strip.textContent).not.toMatch(/-\d+ min/);
+  });
+
   it('renders the standalone tiebreaker note for non-#1 cards as before', () => {
     const tied: ScoredPark = { ...openPark, tiebreakerNote: 'Lower average wait than Hollywood Studios' };
     render(<ParkCard park={tied} rank={2} headlinerNames={[]} />);

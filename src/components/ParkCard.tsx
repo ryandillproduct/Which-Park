@@ -66,6 +66,10 @@ function useLiveMinutesUntilClose(closingTimeMs: number | null): number | null {
 
 function timeFramingSentence(mins: number | null): string {
   if (mins === null) return '';
+  // Stale data guard: if the closing time has already passed (e.g. a page
+  // restored from cache before a refetch lands), say nothing rather than
+  // showing a negative countdown.
+  if (mins <= 0) return '';
   if (mins < 60) return ` Only ~${formatTimeUntilClose(mins)} left until close.`;
   if (mins < 300) return ` About ${formatTimeUntilClose(mins)} left until close.`;
   return " There's plenty of time left to enjoy the park.";

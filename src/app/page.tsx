@@ -35,7 +35,22 @@ export default function Home() {
   useEffect(() => {
     loadParks();
     const interval = setInterval(loadParks, REFRESH_INTERVAL_MS);
-    return () => clearInterval(interval);
+
+    // Mobile browsers suspend timers in background tabs and restore pages
+    // from the back/forward cache with stale state, so the interval alone
+    // isn't enough — refetch whenever the user returns to the page.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') loadParks();
+    };
+    const onPageShow = () => loadParks();
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('pageshow', onPageShow);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('pageshow', onPageShow);
+    };
   }, [loadParks]);
 
   return (
