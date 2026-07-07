@@ -6,8 +6,13 @@ import { HEADLINERS } from '@/config/headliners';
 import { ATTRACTIONS } from '@/config/attractions';
 import { ScoredPark, Recommendation } from '@/types';
 
-export const dynamic = 'force-static';
-export const revalidate = 300;
+// Dynamic on purpose: open/closed state and time-based score adjustments are
+// computed from Date.now(), so the response must be built per-request. With
+// force-static + revalidate, Vercel served stale-while-revalidate — returning
+// visitors got a cached payload with open/closed flags frozen at generation
+// time (sometimes hours old). The upstream themeparks.wiki fetches carry
+// their own 5-minute data cache instead.
+export const dynamic = 'force-dynamic';
 
 function formatHours(opening: string, closing: string): string {
   const fmt = (iso: string) => {
@@ -37,7 +42,11 @@ interface ParkSchedule {
 
 async function fetchParkSchedule(themeParksId: string): Promise<ParkSchedule> {
   try {
-    const res = await fetch(`https://api.themeparks.wiki/v1/entity/${themeParksId}/schedule`);
+    // Cached upstream like the live wait-time fetch; isOpen/closingTimeMs are
+    // still derived from the current time on every request.
+    const res = await fetch(`https://api.themeparks.wiki/v1/entity/${themeParksId}/schedule`, {
+      next: { revalidate: 300 },
+    });
     if (!res.ok) return { hours: null, isOpen: false, closingTimeMs: null };
     const data = await res.json();
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });

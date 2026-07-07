@@ -16,7 +16,11 @@ interface ThemeParksLiveResponse {
 }
 
 export async function fetchParkRides(themeParksId: string): Promise<Ride[]> {
-  const res = await fetch(`https://api.themeparks.wiki/v1/entity/${themeParksId}/live`);
+  // Cache upstream wait-time data for 5 minutes so per-request route
+  // execution doesn't hammer themeparks.wiki.
+  const res = await fetch(`https://api.themeparks.wiki/v1/entity/${themeParksId}/live`, {
+    next: { revalidate: 300 },
+  });
   if (!res.ok) throw new Error(`Failed to fetch park ${themeParksId}: ${res.status}`);
   const data: ThemeParksLiveResponse = await res.json();
   return data.liveData
