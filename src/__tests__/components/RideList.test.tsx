@@ -7,6 +7,8 @@ const rides: Ride[] = [
   { id: 2, name: 'Space Mountain', is_open: true, wait_time: 30, last_updated: '' },
   { id: 3, name: 'Pirates of the Caribbean', is_open: true, wait_time: 10, last_updated: '' },
   { id: 4, name: 'Country Bear Jamboree', is_open: false, wait_time: 0, last_updated: '' },
+  { id: 5, name: 'Happily Ever After', is_open: true, wait_time: 0, last_updated: '', isShow: true },
+  { id: 6, name: 'Festival of the Lion King', is_open: true, wait_time: 0, last_updated: '', isShow: true },
 ];
 const headlinerNames = ['Seven Dwarfs Mine Train'];
 const showtimesUrl = 'https://disneyworld.disney.go.com/entertainment/magic-kingdom/';
@@ -69,5 +71,18 @@ describe('RideList', () => {
     expect((rows[0] as HTMLElement).style.animationDelay).toBe('0s');
     expect((rows[1] as HTMLElement).style.animationDelay).toBe('0.05s');
     expect((rows[2] as HTMLElement).style.animationDelay).toBe('0.1s');
+  });
+
+  it('does not list individual shows', () => {
+    render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
+    expect(screen.queryByText('Happily Ever After')).not.toBeInTheDocument();
+    expect(screen.queryByText('Festival of the Lion King')).not.toBeInTheDocument();
+  });
+
+  it('renders a single Shows & Fireworks row linking to the park showtimes page', () => {
+    render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
+    expect(screen.getByText('Shows & Fireworks')).toBeInTheDocument();
+    const link = screen.getByRole('link', { name: /Showtimes/ });
+    expect(link).toHaveAttribute('href', showtimesUrl);
   });
 });
