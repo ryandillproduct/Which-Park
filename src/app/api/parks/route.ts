@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { fetchParkRides } from '@/lib/queueTimes';
-import { calculateParkScore, scoreLabel } from '@/lib/scoring';
+import { calculateParkScore, scoreLabel, headlinerWaitMinutes, isMeetAndGreet } from '@/lib/scoring';
 import { PARKS } from '@/config/parks';
 import { HEADLINERS } from '@/config/headliners';
 import { ATTRACTIONS } from '@/config/attractions';
@@ -70,11 +70,11 @@ async function fetchParkSchedule(themeParksId: string): Promise<ParkSchedule> {
   }
 }
 
-// Theoretical range of recommendationScore across all parks/conditions, used to
-// rescale the displayed Go Score to a full, intuitive 0-10 spread.
-// Min: crowdScore floor (1) + no time penalty (0) + HS's -1 boost = 0
+// Theoretical range of recommendationScore, used to rescale the displayed Go Score
+// to a full 0-10 spread.
+// Min: crowdScore floor (1) + no time penalty = 1
 // Max: crowdScore ceiling (10) + max time penalty (4) + MK's +1.5 penalty = 15.5
-const RECOMMENDATION_SCORE_MIN = 0;
+const RECOMMENDATION_SCORE_MIN = 1;
 const RECOMMENDATION_SCORE_MAX = 15.5;
 
 // Park IDs: MK = 6, EPCOT = 5, Hollywood Studios = 7, Animal Kingdom = 8
@@ -91,15 +91,6 @@ function recommendationScore(score: number, park: ScoredPark): number {
 
   // MK transportation friction penalty — no direct parking for locals
   if (park.id === 6) adjusted += 1.5;
-
-  // Hollywood Studios show-value boost before 5 PM Eastern
-  if (park.id === 7) {
-    const hourET = parseInt(
-      new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour: 'numeric', hour12: false }),
-      10
-    );
-    if (hourET < 17) adjusted -= 1;
-  }
 
   return adjusted;
 }
@@ -217,10 +208,15 @@ export async function GET() {
           // within the non-show group or within the show group.
           .sort((a, b) => (a.isShow ? 1 : 0) - (b.isShow ? 1 : 0));
 
-        const ridesForScoring = curated.filter((r) => !r.isShow && r.is_open);
+        // Meet-and-greets are excluded from all scoring math and averages (they are
+        // still rendered in the list — see RideList).
+        const ridesForScoring = curated.filter(
+          (r) => !r.isShow && !isMeetAndGreet(r.name) && r.is_open
+        );
         const score = calculateParkScore(ridesForScoring, HEADLINERS[park.id] ?? []);
+        const headlinerWait = headlinerWaitMinutes(ridesForScoring, HEADLINERS[park.id] ?? []);
 
-        const openRides = curated.filter((r) => !r.isShow && r.is_open);
+        const openRides = ridesForScoring;
         const avgWaitMinutes = openRides.length > 0
           ? Math.round(openRides.reduce((sum, r) => sum + r.wait_time, 0) / openRides.length)
           : 0;
@@ -234,6 +230,7 @@ export async function GET() {
           isOpen,
           closingTimeMs,
           avgWaitMinutes,
+          headlinerWaitMinutes: headlinerWait,
           openAttractionCount: openRides.length,
           goScore: 0, // placeholder — overwritten below after sorting
         };
