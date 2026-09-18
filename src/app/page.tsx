@@ -97,7 +97,7 @@ export default function Home() {
             </div>
             {recommendation && (
               <p className="mt-0.5 text-xs text-[#B5A898]">
-                Tap a park to see attraction wait times
+                Tap a park for wait times and why it ranks
               </p>
             )}
           </div>
