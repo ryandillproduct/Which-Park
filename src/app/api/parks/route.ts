@@ -95,13 +95,15 @@ function recommendationScore(score: number, park: ScoredPark): number {
   return adjusted;
 }
 
-// Lower recommendationScore wins. Ties broken by: lower avg wait, then more
-// open attractions, then alphabetical — guarantees a deterministic order.
+// Lower recommendationScore wins. Ties broken by: shorter headliner waits, then
+// more open attractions, then alphabetical — guarantees a deterministic order.
+// Headliner waits (not overall average) so the tiebreaker matches what the card's
+// meters and tiebreaker note surface to the user.
 function compareParks(a: ScoredPark, b: ScoredPark): number {
   const scoreDiff = recommendationScore(a.score, a) - recommendationScore(b.score, b);
   if (scoreDiff !== 0) return scoreDiff;
 
-  const waitDiff = a.avgWaitMinutes - b.avgWaitMinutes;
+  const waitDiff = a.headlinerWaitMinutes - b.headlinerWaitMinutes;
   if (waitDiff !== 0) return waitDiff;
 
   const attractionDiff = b.openAttractionCount - a.openAttractionCount;
@@ -132,8 +134,8 @@ function tiebreakerReason(
   if (roundToHalf(winner.goScore) !== roundToHalf(loser.goScore)) {
     return null;
   }
-  if (winner.avgWaitMinutes !== loser.avgWaitMinutes) {
-    return `Lower average wait than ${loser.name}`;
+  if (winner.headlinerWaitMinutes !== loser.headlinerWaitMinutes) {
+    return `Shorter headliner waits than ${loser.name}`;
   }
   if (winner.openAttractionCount !== loser.openAttractionCount) {
     return `More open attractions than ${loser.name}`;

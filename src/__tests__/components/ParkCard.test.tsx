@@ -112,9 +112,9 @@ describe('ParkCard', () => {
   });
 
   it('renders the standalone tiebreaker note for non-#1 cards as before', () => {
-    const tied: ScoredPark = { ...openPark, tiebreakerNote: 'Lower average wait than Hollywood Studios' };
+    const tied: ScoredPark = { ...openPark, tiebreakerNote: 'Shorter headliner waits than Hollywood Studios' };
     render(<ParkCard park={tied} rank={2} headlinerNames={[]} />);
-    expect(screen.getByText('Lower average wait than Hollywood Studios')).toBeInTheDocument();
+    expect(screen.getByText('Shorter headliner waits than Hollywood Studios')).toBeInTheDocument();
     expect(screen.queryByTestId('top-pick-strip')).not.toBeInTheDocument();
   });
 
