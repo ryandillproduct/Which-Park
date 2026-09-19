@@ -7,6 +7,7 @@ import { HEADLINERS } from '@/config/headliners';
 import { ParkCard } from '@/components/ParkCard';
 import { RecommendedBanner } from '@/components/RecommendedBanner';
 import { GoScoreInfoModal } from '@/components/GoScoreInfoModal';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -54,7 +55,8 @@ export default function Home() {
   }, [loadParks]);
 
   return (
-    <main className="min-h-screen px-4 pt-4 pb-12 max-w-2xl mx-auto">
+    <main className="relative min-h-screen px-4 pt-4 pb-12 max-w-2xl mx-auto">
+      <ThemeToggle />
       <header className="mb-4 flex items-center justify-center gap-3">
         <div className="w-8 h-8 rounded-lg bg-[#F5C842] flex items-center justify-center flex-shrink-0">
           <span className="font-serif text-lg font-bold text-[#1C1008] leading-none mt-0.5">?</span>
