@@ -73,11 +73,10 @@ async function fetchParkSchedule(themeParksId: string): Promise<ParkSchedule> {
 // Theoretical range of recommendationScore, used to rescale the displayed Go Score
 // to a full 0-10 spread.
 // Min: crowdScore floor (1) + no time penalty = 1
-// Max: crowdScore ceiling (10) + max time penalty (4) + MK's +1.5 penalty = 15.5
+// Max: crowdScore ceiling (10) + max time penalty (4) = 14
 const RECOMMENDATION_SCORE_MIN = 1;
-const RECOMMENDATION_SCORE_MAX = 15.5;
+const RECOMMENDATION_SCORE_MAX = 14;
 
-// Park IDs: MK = 6, EPCOT = 5, Hollywood Studios = 7, Animal Kingdom = 8
 function recommendationScore(score: number, park: ScoredPark): number {
   let adjusted = score;
 
@@ -88,9 +87,6 @@ function recommendationScore(score: number, park: ScoredPark): number {
     else if (mins >= 60) adjusted += 1.5;
     else                 adjusted += 4;
   }
-
-  // MK transportation friction penalty — no direct parking for locals
-  if (park.id === 6) adjusted += 1.5;
 
   return adjusted;
 }

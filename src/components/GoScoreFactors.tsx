@@ -2,7 +2,6 @@ interface Props {
   headlinerWaitMinutes: number;
   crowdScore: number;
   minutesUntilClose: number | null;
-  parkId: number;
 }
 
 type Tone = 'good' | 'mid' | 'bad';
@@ -30,11 +29,6 @@ function timeBand(mins: number): { label: string; tone: Tone } {
   return { label: 'Closing soon', tone: 'bad' };
 }
 
-// Additional score factors that aren't meters. Today only MK's parking friction.
-function factorPills(parkId: number): string[] {
-  return parkId === 6 ? ['No direct parking'] : [];
-}
-
 function Meter({ label, value, tone, testid }: { label: string; value: string; tone: Tone; testid: string }) {
   return (
     <div className="mb-3 last:mb-0">
@@ -53,11 +47,10 @@ function Meter({ label, value, tone, testid }: { label: string; value: string; t
   );
 }
 
-export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilClose, parkId }: Props) {
+export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilClose }: Props) {
   const waits = waitBand(headlinerWaitMinutes);
   const crowd = crowdBand(crowdScore);
   const time = minutesUntilClose !== null ? timeBand(minutesUntilClose) : null;
-  const pills = factorPills(parkId);
 
   return (
     <div className="mb-4">
@@ -65,18 +58,6 @@ export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilC
       <Meter label="Headliner attraction wait times" value={waits.label} tone={waits.tone} testid="meter-fill-waits" />
       <Meter label="Crowd level" value={crowd.label} tone={crowd.tone} testid="meter-fill-crowd" />
       {time && <Meter label="Park hours remaining" value={time.label} tone={time.tone} testid="meter-fill-time" />}
-      {pills.length > 0 && (
-        <>
-          <p className="text-[10px] font-bold tracking-wider uppercase text-[#B5A898] mt-3 mb-2">Also factored in</p>
-          <div className="flex flex-wrap gap-2">
-            {pills.map((p) => (
-              <span key={p} className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F0EBE3] text-[#6B5B44]">
-                {p}
-              </span>
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }

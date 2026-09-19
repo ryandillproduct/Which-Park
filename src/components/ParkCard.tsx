@@ -178,7 +178,6 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
                   headlinerWaitMinutes={park.headlinerWaitMinutes}
                   crowdScore={park.score}
                   minutesUntilClose={minutesUntilClose}
-                  parkId={park.id}
                 />
               )}
               {park.isOpen && (
