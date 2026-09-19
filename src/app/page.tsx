@@ -92,7 +92,7 @@ export default function Home() {
               <button
                 onClick={() => setShowGoScoreInfo(true)}
                 aria-label="What is Go Score?"
-                className="w-4 h-4 rounded-full border border-[#C4B49A] text-[var(--text-muted)] text-[10px] leading-none flex items-center justify-center flex-shrink-0"
+                className="w-4 h-4 rounded-full border border-[var(--text-muted)] text-[var(--text-muted)] text-[10px] leading-none flex items-center justify-center flex-shrink-0"
               >
                 i
               </button>
