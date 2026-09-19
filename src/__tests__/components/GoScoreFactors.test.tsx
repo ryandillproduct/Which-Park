@@ -5,9 +5,9 @@ describe('GoScoreFactors', () => {
   it('renders the three factor meters under the neutral header', () => {
     render(<GoScoreFactors headlinerWaitMinutes={15} crowdScore={3} minutesUntilClose={400} parkId={5} />);
     expect(screen.getByText('Go Score factors')).toBeInTheDocument();
-    expect(screen.getByText('Headliner waits')).toBeInTheDocument();
+    expect(screen.getByText('Headliner attraction wait times')).toBeInTheDocument();
     expect(screen.getByText('Crowd level')).toBeInTheDocument();
-    expect(screen.getByText('Time to enjoy')).toBeInTheDocument();
+    expect(screen.getByText('Park hours remaining')).toBeInTheDocument();
   });
 
   it('labels favorable conditions as Short / Light / Plenty', () => {
@@ -50,6 +50,6 @@ describe('GoScoreFactors', () => {
 
   it('omits the time meter when the closing time is unknown', () => {
     render(<GoScoreFactors headlinerWaitMinutes={20} crowdScore={4} minutesUntilClose={null} parkId={5} />);
-    expect(screen.queryByText('Time to enjoy')).not.toBeInTheDocument();
+    expect(screen.queryByText('Park hours remaining')).not.toBeInTheDocument();
   });
 });

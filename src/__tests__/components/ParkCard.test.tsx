@@ -98,12 +98,14 @@ describe('ParkCard', () => {
     expect(screen.getByTestId('icon-badge')).not.toHaveClass('animate-icon-pulse');
   });
 
-  it('renders a top pick strip describing the park\'s own conditions for the #1 card', () => {
+  it('renders a top pick strip mapping to the Go Score factors for the #1 card', () => {
     render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
     const strip = screen.getByTestId('top-pick-strip');
+    // openPark: headliner wait 20, crowd 4 (moderate), closes in 90 min
     expect(strip).toHaveTextContent('Top pick right now');
-    // openPark: headliner wait 20 (Short), crowd 4 (Moderate) → leads with short waits
-    expect(strip).toHaveTextContent(/short waits/i);
+    expect(strip).toHaveTextContent('20 min average wait');
+    expect(strip).toHaveTextContent('moderate crowds');
+    expect(strip).toHaveTextContent('about 1 hr 30 min left until close');
   });
 
   it('does not render the top pick strip for lower-ranked cards', () => {
@@ -121,7 +123,8 @@ describe('ParkCard', () => {
   it('shows the Go Score factors block and headliner legend when expanded (open park)', () => {
     render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
     expect(screen.getByText('Go Score factors')).toBeInTheDocument();
-    expect(screen.getByText(/Headliner attraction/)).toBeInTheDocument();
+    // the ★ legend below the meters (distinct from the "Headliner attraction wait times" meter label)
+    expect(screen.getByText(/Headliner attraction$/)).toBeInTheDocument();
   });
 
   it('no longer shows the "avg wait across open attractions" line', () => {

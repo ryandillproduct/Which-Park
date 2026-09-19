@@ -62,15 +62,15 @@ export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilC
   return (
     <div className="mb-4">
       <p className="text-[10px] font-bold tracking-wider uppercase text-[#B5A898] mb-3">Go Score factors</p>
-      <Meter label="Headliner waits" value={waits.label} tone={waits.tone} testid="meter-fill-waits" />
+      <Meter label="Headliner attraction wait times" value={waits.label} tone={waits.tone} testid="meter-fill-waits" />
       <Meter label="Crowd level" value={crowd.label} tone={crowd.tone} testid="meter-fill-crowd" />
-      {time && <Meter label="Time to enjoy" value={time.label} tone={time.tone} testid="meter-fill-time" />}
+      {time && <Meter label="Park hours remaining" value={time.label} tone={time.tone} testid="meter-fill-time" />}
       {pills.length > 0 && (
         <>
           <p className="text-[10px] font-bold tracking-wider uppercase text-[#B5A898] mt-3 mb-2">Also factored in</p>
           <div className="flex flex-wrap gap-2">
             {pills.map((p) => (
-              <span key={p} className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F0EBE3] text-[#6B5B44]">
+              <span key={p} className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F0EBE3] text-[#6B5B44]">
                 {p}
               </span>
             ))}

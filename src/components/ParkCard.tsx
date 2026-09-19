@@ -56,22 +56,37 @@ function useLiveMinutesUntilClose(closingTimeMs: number | null): number | null {
   return mins;
 }
 
-// The #1 card's always-visible strip: names the park's own most favorable
-// conditions (no cross-park comparison, so it is always reliable).
-function topPickReason(headlinerWaitMinutes: number, crowdScore: number): string {
-  const parts: string[] = [];
-  if (headlinerWaitMinutes <= 20) parts.push('short waits');
-  if (crowdScore <= 3) parts.push('light crowds');
-  if (parts.length === 0) return 'the best conditions of the open parks';
-  return parts.join(' and ');
+function formatTimeUntilClose(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (mins === 0) return `${hrs} hr${hrs > 1 ? 's' : ''}`;
+  return `${hrs} hr ${mins} min`;
 }
 
-function TopPickStrip({ park }: { park: ScoredPark }) {
+// Closing-time clause for the top strip — mirrors the "Park hours remaining"
+// meter's tiers but reads as prose. Anything 5+ hours out is "plenty of time".
+function timeClause(mins: number | null): string {
+  if (mins !== null && mins < 60) return `only ~${formatTimeUntilClose(mins)} left until close`;
+  if (mins !== null && mins < 300) return `about ${formatTimeUntilClose(mins)} left until close`;
+  return 'plenty of time left to enjoy the park';
+}
+
+function crowdWord(crowdScore: number): string {
+  if (crowdScore <= 3) return 'light';
+  if (crowdScore <= 6) return 'moderate';
+  return 'heavy';
+}
+
+// The #1 card's always-visible strip: spells out the same three factors the
+// meters show (headliner wait, crowd level, hours remaining), so the headline
+// reasoning maps cleanly to the details below.
+function TopPickStrip({ park, minutesUntilClose }: { park: ScoredPark; minutesUntilClose: number | null }) {
   return (
     <div data-testid="top-pick-strip" className="mt-2 rounded-lg bg-[#FDF3D6] px-2.5 py-2">
       <p className="text-[11px] leading-snug text-[#1C1008]">
         <span className="font-bold text-[#8B6914]">Top pick right now —</span>{' '}
-        {topPickReason(park.headlinerWaitMinutes, park.score)}.
+        {park.headlinerWaitMinutes} min average wait, {crowdWord(park.score)} crowds, and {timeClause(minutesUntilClose)}.
       </p>
     </div>
   );
@@ -140,7 +155,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
               </div>
               <p className="text-xs text-[#B5A898] mt-1">Go Score · {(Math.round(park.goScore * 2) / 2).toFixed(1)}/10</p>
               {rank === 1 ? (
-                <TopPickStrip park={park} />
+                <TopPickStrip park={park} minutesUntilClose={minutesUntilClose} />
               ) : (
                 park.tiebreakerNote && (
                   <p className="text-xs text-[#B5A898] mt-0.5 italic">{park.tiebreakerNote}</p>
