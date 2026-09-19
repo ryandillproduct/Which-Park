@@ -24,9 +24,9 @@ function crowdBand(score: number): { label: string; tone: Tone } {
   return { label: 'Heavy', tone: 'bad' };
 }
 function timeBand(mins: number): { label: string; tone: Tone } {
-  if (mins >= 300) return { label: 'Plenty', tone: 'good' };
-  if (mins >= 60) return { label: 'Limited', tone: 'mid' };
-  return { label: 'Closing soon', tone: 'bad' };
+  if (mins >= 120) return { label: 'Plenty', tone: 'good' };   // 2+ hrs
+  if (mins >= 60) return { label: 'Limited', tone: 'mid' };    // 1–2 hrs
+  return { label: 'Closing soon', tone: 'bad' };               // under 1 hr
 }
 
 function Meter({ label, value, tone, testid }: { label: string; value: string; tone: Tone; testid: string }) {

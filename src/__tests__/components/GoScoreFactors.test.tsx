@@ -25,8 +25,15 @@ describe('GoScoreFactors', () => {
   });
 
   it('labels middle conditions as Moderate / Moderate / Limited', () => {
-    render(<GoScoreFactors headlinerWaitMinutes={35} crowdScore={5} minutesUntilClose={120} />);
+    render(<GoScoreFactors headlinerWaitMinutes={35} crowdScore={5} minutesUntilClose={90} />);
     expect(screen.getAllByText('Moderate').length).toBe(2);
+    expect(screen.getByText('Limited')).toBeInTheDocument();
+  });
+
+  it('labels 2+ hours remaining as Plenty and 1-2 hours as Limited', () => {
+    const { rerender } = render(<GoScoreFactors headlinerWaitMinutes={20} crowdScore={4} minutesUntilClose={120} />);
+    expect(screen.getByText('Plenty')).toBeInTheDocument();
+    rerender(<GoScoreFactors headlinerWaitMinutes={20} crowdScore={4} minutesUntilClose={119} />);
     expect(screen.getByText('Limited')).toBeInTheDocument();
   });
 
