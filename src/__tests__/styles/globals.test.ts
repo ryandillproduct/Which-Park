@@ -52,15 +52,12 @@ describe('globals.css motion utilities', () => {
     expect(css).toContain('#17120D');
   });
 
-  it('defines the top-down theme wash transition', () => {
-    expect(css).toContain('@keyframes theme-wash-down');
+  it('defines the theme wash transition driven by a directional custom property', () => {
+    expect(css).toContain('@keyframes theme-wash');
     expect(css).toContain('::view-transition-new(root)');
-    expect(css).toContain('clip-path: inset(0 0 100% 0)');
-  });
-
-  it('defines the bottom-up wash for switching to light mode', () => {
-    expect(css).toContain('@keyframes theme-wash-up');
-    expect(css).toContain('clip-path: inset(100% 0 0 0)');
-    expect(css).toContain('.vt-wash-up');
+    // direction comes from --wash-from (set per-toggle in ThemeToggle), with a
+    // top-down default fallback
+    expect(css).toContain('var(--wash-from');
+    expect(css).toContain('inset(0 0 100% 0)');
   });
 });

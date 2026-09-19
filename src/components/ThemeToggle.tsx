@@ -40,11 +40,13 @@ export function ThemeToggle() {
     }).startViewTransition;
     if (startVT && !reduce) {
       // Light "raises the shade" (wash up, letting light in); dark "lowers the
-      // shade" (wash down). Set the direction class for the duration of the wash.
+      // shade" (wash down). The wash keyframe reads --wash-from off the root,
+      // which inherits into the ::view-transition pseudo — reliable where a
+      // class-scoped pseudo selector is not.
       const root = document.documentElement;
-      root.classList.toggle('vt-wash-up', next === 'light');
+      root.style.setProperty('--wash-from', next === 'light' ? 'inset(100% 0 0 0)' : 'inset(0 0 100% 0)');
       const transition = startVT.call(document, () => apply(next));
-      transition.finished.finally(() => root.classList.remove('vt-wash-up'));
+      transition.finished.finally(() => root.style.removeProperty('--wash-from'));
     } else {
       apply(next);
     }
