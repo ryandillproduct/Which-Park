@@ -83,9 +83,9 @@ function crowdWord(crowdScore: number): string {
 // reasoning maps cleanly to the details below.
 function TopPickStrip({ park, minutesUntilClose }: { park: ScoredPark; minutesUntilClose: number | null }) {
   return (
-    <div data-testid="top-pick-strip" className="mt-2 rounded-lg bg-[#FDF3D6] px-2.5 py-2">
-      <p className="text-[11px] leading-snug text-[#1C1008]">
-        <span className="font-bold text-[#8B6914]">Top pick right now —</span>{' '}
+    <div data-testid="top-pick-strip" className="mt-2 rounded-lg bg-[var(--strip-bg)] px-2.5 py-2">
+      <p className="text-[11px] leading-snug text-[var(--text)]">
+        <span className="font-bold text-[var(--strip-lead)]">Top pick right now —</span>{' '}
         {park.headlinerWaitMinutes} min average wait, {crowdWord(park.score)} crowds, and {timeClause(minutesUntilClose)}.
       </p>
     </div>
@@ -101,7 +101,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
   return (
     <div
       data-testid="park-card"
-      className={`relative rounded-2xl bg-white overflow-hidden shadow-[0_4px_16px_rgba(28,16,8,0.06)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 ${rank !== null ? 'animate-card-stagger-in' : ''} ${rank === 1 ? 'animate-glow-pulse' : ''}`}
+      className={`relative rounded-2xl bg-[var(--surface)] overflow-hidden shadow-[0_4px_16px_rgba(28,16,8,0.06)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 ${rank !== null ? 'animate-card-stagger-in' : ''} ${rank === 1 ? 'animate-glow-pulse' : ''}`}
       style={rank !== null ? { animationDelay: `${(rank - 1) * 0.12}s` } : undefined}
     >
       {rank !== null && (
@@ -121,28 +121,28 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
         <div
           data-testid="icon-badge"
           className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${park.isOpen ? 'icon-badge-open' : ''} ${park.isOpen && rank === 1 ? 'animate-icon-pulse' : ''}`}
-          style={park.isOpen ? { background: 'linear-gradient(135deg, #FBF0DC, #F0DCA8)' } : undefined}
+          style={park.isOpen ? { background: 'var(--badge-grad)' } : undefined}
         >
           <ParkSilhouette
             parkKey={park.silhouetteKey}
             className="w-8 h-8"
-            style={{ color: park.isOpen ? '#B8842E' : '#DDD8D0' }}
+            style={{ color: park.isOpen ? 'var(--icon)' : 'var(--icon-muted)' }}
           />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
-            <p className={`font-playfair text-lg font-semibold truncate ${park.isOpen ? 'text-[#1C1008]' : 'text-[#B5A898]'}`}>
+            <p className={`font-playfair text-lg font-semibold truncate ${park.isOpen ? 'text-[var(--text)]' : 'text-[var(--text-muted)]'}`}>
               {park.name}
             </p>
           </div>
           {(park.hours || !park.isOpen) && (
-            <p className="text-xs text-[#B5A898] mt-0.5">
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">
               {park.isOpen ? park.hours : park.hours ? `Closed · ${park.hours}` : 'Closed'}
             </p>
           )}
           {park.isOpen && (
             <>
-              <div className="mt-2 w-full h-1.5 rounded-full bg-[#EDE8E1] overflow-hidden">
+              <div className="mt-2 w-full h-1.5 rounded-full bg-[var(--track)] overflow-hidden">
                 <div
                   className="h-full rounded-full"
                   style={{
@@ -153,12 +153,12 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
                   }}
                 />
               </div>
-              <p className="text-xs text-[#B5A898] mt-1">Go Score · {(Math.round(park.goScore * 2) / 2).toFixed(1)}/10</p>
+              <p className="text-xs text-[var(--text-muted)] mt-1">Go Score · {(Math.round(park.goScore * 2) / 2).toFixed(1)}/10</p>
               {rank === 1 ? (
                 <TopPickStrip park={park} minutesUntilClose={minutesUntilClose} />
               ) : (
                 park.tiebreakerNote && (
-                  <p className="text-xs text-[#B5A898] mt-0.5 italic">{park.tiebreakerNote}</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5 italic">{park.tiebreakerNote}</p>
                 )
               )}
             </>
@@ -172,7 +172,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
       >
         <div>
           <div className="px-5 pb-5">
-            <div className="border-t border-black/[0.06] pt-4">
+            <div className="border-t border-[var(--divider)] pt-4">
               {park.isOpen && (
                 <GoScoreFactors
                   headlinerWaitMinutes={park.headlinerWaitMinutes}
@@ -181,7 +181,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
                 />
               )}
               {park.isOpen && (
-                <p className="text-xs text-[#B5A898] mb-3">
+                <p className="text-xs text-[var(--text-muted)] mb-3">
                   <span className="text-[#E8A93A]">★</span> Headliner attraction
                 </p>
               )}

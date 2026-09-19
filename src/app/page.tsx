@@ -61,20 +61,20 @@ export default function Home() {
         <div className="w-8 h-8 rounded-lg bg-[#F5C842] flex items-center justify-center flex-shrink-0">
           <span className="font-serif text-lg font-bold text-[#1C1008] leading-none mt-0.5">?</span>
         </div>
-        <p className="text-xs text-[#B5A898] tracking-wide">
+        <p className="text-xs text-[var(--text-muted)] tracking-wide">
           The question isn&apos;t if. It&apos;s where.
         </p>
       </header>
 
       {loading && (
         <div className="flex justify-center items-center py-24">
-          <span className="text-[#B5A898] text-sm animate-pulse">Loading parks…</span>
+          <span className="text-[var(--text-muted)] text-sm animate-pulse">Loading parks…</span>
         </div>
       )}
 
       {error && !loading && (
         <div className="text-center py-24">
-          <p className="text-[#B5A898] text-sm">
+          <p className="text-[var(--text-muted)] text-sm">
             Unable to load wait times. Please try again shortly.
           </p>
         </div>
@@ -86,19 +86,19 @@ export default function Home() {
 
           <div className="mb-3">
             <div className="flex items-center gap-1.5">
-              <p className="text-xs font-semibold text-[#8B7355] uppercase tracking-widest">
+              <p className="text-xs font-semibold text-[var(--text-label)] uppercase tracking-widest">
                 Live Park Rankings by Go Score
               </p>
               <button
                 onClick={() => setShowGoScoreInfo(true)}
                 aria-label="What is Go Score?"
-                className="w-4 h-4 rounded-full border border-[#C4B49A] text-[#B5A898] text-[10px] leading-none flex items-center justify-center flex-shrink-0"
+                className="w-4 h-4 rounded-full border border-[#C4B49A] text-[var(--text-muted)] text-[10px] leading-none flex items-center justify-center flex-shrink-0"
               >
                 i
               </button>
             </div>
             {recommendation && (
-              <p className="mt-0.5 text-xs text-[#B5A898]">
+              <p className="mt-0.5 text-xs text-[var(--text-muted)]">
                 Tap a park for attraction wait times and Go Score details
               </p>
             )}
@@ -126,10 +126,10 @@ export default function Home() {
       )}
 
       <footer className="mt-10 text-center">
-        <Link href="/about" className="text-xs text-[#B5A898] underline underline-offset-2">
+        <Link href="/about" className="text-xs text-[var(--text-muted)] underline underline-offset-2">
           Meet the Creator
         </Link>
-        <p className="mt-2 text-xs text-[#B5A898]">
+        <p className="mt-2 text-xs text-[var(--text-muted)]">
           WhichPark? is an independent project and is not affiliated with or endorsed by Disney.
         </p>
       </footer>

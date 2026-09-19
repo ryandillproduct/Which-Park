@@ -33,10 +33,10 @@ function Meter({ label, value, tone, testid }: { label: string; value: string; t
   return (
     <div className="mb-3 last:mb-0">
       <div className="flex justify-between text-xs mb-1">
-        <span className="text-[#8B7355]">{label}</span>
-        <span className="text-[#1C1008] font-semibold">{value}</span>
+        <span className="text-[var(--text-label)]">{label}</span>
+        <span className="text-[var(--text)] font-semibold">{value}</span>
       </div>
-      <div className="h-1.5 rounded-full bg-[#EDE8E1] overflow-hidden">
+      <div className="h-1.5 rounded-full bg-[var(--track)] overflow-hidden">
         <div
           data-testid={testid}
           className="h-full rounded-full"
@@ -54,7 +54,7 @@ export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilC
 
   return (
     <div className="mb-4">
-      <p className="text-[10px] font-bold tracking-wider uppercase text-[#B5A898] mb-3">Go Score factors</p>
+      <p className="text-[10px] font-bold tracking-wider uppercase text-[var(--text-muted)] mb-3">Go Score factors</p>
       <Meter label="Headliner attraction wait times" value={waits.label} tone={waits.tone} testid="meter-fill-waits" />
       <Meter label="Crowd level" value={crowd.label} tone={crowd.tone} testid="meter-fill-crowd" />
       {time && <Meter label="Park hours remaining" value={time.label} tone={time.tone} testid="meter-fill-time" />}

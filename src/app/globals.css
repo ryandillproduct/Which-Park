@@ -22,6 +22,7 @@
   --chip-amber-bg: #FEF3D6;  --chip-amber-tx: #92660A;
   --chip-red-bg: #FCE4E6;    --chip-red-tx: #B3273E;
   --chip-gray-bg: #F0EBE3;   --chip-gray-tx: #998a73;
+  --divider: rgba(0,0,0,0.06);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,6 +43,7 @@
     --chip-amber-bg: #3A2E14;  --chip-amber-tx: #F2C56A;
     --chip-red-bg: #3A1A20;    --chip-red-tx: #F0969F;
     --chip-gray-bg: #2E2820;   --chip-gray-tx: #A89880;
+    --divider: rgba(255,255,255,0.08);
   }
 }
 
@@ -62,6 +64,7 @@
   --chip-amber-bg: #3A2E14;  --chip-amber-tx: #F2C56A;
   --chip-red-bg: #3A1A20;    --chip-red-tx: #F0969F;
   --chip-gray-bg: #2E2820;   --chip-gray-tx: #A89880;
+  --divider: rgba(255,255,255,0.08);
 }
 
 html,
