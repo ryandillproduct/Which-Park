@@ -55,19 +55,29 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
+      role="switch"
+      aria-checked={isDark}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-[var(--text-label)] hover:text-[var(--text)] transition-colors z-20"
+      className="fixed top-4 right-4 z-20 w-14 h-7 rounded-full bg-[var(--track)] transition-colors"
     >
-      {isDark ? (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        </svg>
-      ) : (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-        </svg>
-      )}
+      <span
+        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-[var(--surface)] shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-transform duration-300 ${isDark ? 'translate-x-7' : 'translate-x-0'}`}
+      />
+      <svg
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        aria-hidden="true"
+        className={`absolute top-[7px] left-[7px] w-3.5 h-3.5 z-10 transition-colors ${isDark ? 'text-[var(--text-muted)] opacity-60' : 'text-[#E8A93A]'}`}
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </svg>
+      <svg
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        aria-hidden="true"
+        className={`absolute top-[7px] left-[35px] w-3.5 h-3.5 z-10 transition-colors ${isDark ? 'text-[var(--text)]' : 'text-[var(--text-muted)] opacity-60'}`}
+      >
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+      </svg>
     </button>
   );
 }
