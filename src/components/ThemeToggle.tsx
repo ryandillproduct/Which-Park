@@ -63,6 +63,7 @@ export function ThemeToggle() {
       className="fixed top-4 right-4 z-20 w-14 h-7 rounded-full bg-[var(--track)] transition-colors"
     >
       <span
+        style={{ viewTransitionName: 'theme-thumb' } as React.CSSProperties}
         className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-[var(--surface)] shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-transform duration-300 ${isDark ? 'translate-x-7' : 'translate-x-0'}`}
       />
       <svg

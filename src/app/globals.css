@@ -81,9 +81,16 @@ body {
 }
 ::view-transition-old(root) { animation: none; }
 ::view-transition-new(root) { animation: theme-wash 0.6s ease both; }
+/* The toggle thumb is its own group so it slides on top of the wash — visible
+   the whole time, regardless of which screen region the wash reveals first. */
+::view-transition-group(theme-thumb) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
-  ::view-transition-new(root) { animation: none; }
+  ::view-transition-new(root),
+  ::view-transition-group(theme-thumb) { animation: none; }
 }
 
 /* ===== Motion: card list entrance (staggered, used by ParkCard) ===== */
