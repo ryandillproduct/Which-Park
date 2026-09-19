@@ -25,7 +25,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="font-sans antialiased bg-[#FDF8F0] text-[#1C1008]">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;}catch(e){}})();",
+          }}
+        />
+      </head>
+      <body className="font-sans antialiased bg-[var(--bg)] text-[var(--text)]">
         {children}
         <Analytics />
       </body>

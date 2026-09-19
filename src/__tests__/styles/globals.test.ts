@@ -37,4 +37,24 @@ describe('globals.css motion utilities', () => {
     expect(css).toContain('@keyframes rideRowIn');
     expect(css).toContain('.animate-ride-row-in');
   });
+
+  it('defines the light theme tokens on :root', () => {
+    expect(css).toContain('--bg: #FDF8F0');
+    expect(css).toContain('--surface: #FFFFFF');
+    expect(css).toContain('--text: #1C1008');
+    expect(css).toContain('--chip-red-bg: #FCE4E6');
+  });
+
+  it('defines warm-dark overrides for system preference and manual toggle', () => {
+    expect(css).toContain('@media (prefers-color-scheme: dark)');
+    expect(css).toContain('[data-theme="dark"]');
+    expect(css).toContain('[data-theme="light"]');
+    expect(css).toContain('#17120D');
+  });
+
+  it('defines the top-down theme wash transition', () => {
+    expect(css).toContain('@keyframes theme-wash-down');
+    expect(css).toContain('::view-transition-new(root)');
+    expect(css).toContain('clip-path: inset(0 0 100% 0)');
+  });
 });

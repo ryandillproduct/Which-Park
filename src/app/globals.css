@@ -6,15 +6,81 @@
 }
 
 :root {
-  --color-gold: #F5C842;
-  --color-bg: #FDF8F0;
+  --bg: #FDF8F0;
+  --surface: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --text: #1C1008;
+  --text-muted: #B5A898;
+  --text-label: #8B7355;
+  --track: #EDE8E1;
+  --strip-bg: #FDF3D6;
+  --strip-lead: #8B6914;
+  --badge-grad: linear-gradient(135deg, #FBF0DC, #F0DCA8);
+  --icon: #B8842E;
+  --icon-muted: #DDD8D0;
+  --chip-green-bg: #E3F6EC;  --chip-green-tx: #1E8E5A;
+  --chip-amber-bg: #FEF3D6;  --chip-amber-tx: #92660A;
+  --chip-red-bg: #FCE4E6;    --chip-red-tx: #B3273E;
+  --chip-gray-bg: #F0EBE3;   --chip-gray-tx: #998a73;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17120D;
+    --surface: #241C15;
+    --surface-raised: #2A2118;
+    --text: #F2E9DB;
+    --text-muted: #9C8E7C;
+    --text-label: #C0AA8C;
+    --track: #3A2F24;
+    --strip-bg: #2C2313;
+    --strip-lead: #F0C769;
+    --badge-grad: linear-gradient(135deg, #3A2E1A, #4A3A20);
+    --icon: #F0C463;
+    --icon-muted: #5A5048;
+    --chip-green-bg: #173A2C;  --chip-green-tx: #7DE0A6;
+    --chip-amber-bg: #3A2E14;  --chip-amber-tx: #F2C56A;
+    --chip-red-bg: #3A1A20;    --chip-red-tx: #F0969F;
+    --chip-gray-bg: #2E2820;   --chip-gray-tx: #A89880;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #17120D;
+  --surface: #241C15;
+  --surface-raised: #2A2118;
+  --text: #F2E9DB;
+  --text-muted: #9C8E7C;
+  --text-label: #C0AA8C;
+  --track: #3A2F24;
+  --strip-bg: #2C2313;
+  --strip-lead: #F0C769;
+  --badge-grad: linear-gradient(135deg, #3A2E1A, #4A3A20);
+  --icon: #F0C463;
+  --icon-muted: #5A5048;
+  --chip-green-bg: #173A2C;  --chip-green-tx: #7DE0A6;
+  --chip-amber-bg: #3A2E14;  --chip-amber-tx: #F2C56A;
+  --chip-red-bg: #3A1A20;    --chip-red-tx: #F0969F;
+  --chip-gray-bg: #2E2820;   --chip-gray-tx: #A89880;
 }
 
 html,
 body {
-  background-color: var(--color-bg);
-  color: #1C1008;
+  background-color: var(--bg);
+  color: var(--text);
   min-height: 100vh;
+}
+
+/* ===== Theme swap: top-down wash via the View Transitions API ===== */
+@keyframes theme-wash-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) { animation: theme-wash-down 0.45s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
 }
 
 /* ===== Motion: card list entrance (staggered, used by ParkCard) ===== */
