@@ -36,10 +36,15 @@ export function ThemeToggle() {
       typeof window !== 'undefined'
       && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const startVT = (document as unknown as {
-      startViewTransition?: (cb: () => void) => void;
+      startViewTransition?: (cb: () => void) => { finished: Promise<unknown> };
     }).startViewTransition;
     if (startVT && !reduce) {
-      startVT.call(document, () => apply(next));
+      // Light "raises the shade" (wash up, letting light in); dark "lowers the
+      // shade" (wash down). Set the direction class for the duration of the wash.
+      const root = document.documentElement;
+      root.classList.toggle('vt-wash-up', next === 'light');
+      const transition = startVT.call(document, () => apply(next));
+      transition.finished.finally(() => root.classList.remove('vt-wash-up'));
     } else {
       apply(next);
     }

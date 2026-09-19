@@ -181,7 +181,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
                 />
               )}
               {park.isOpen && (
-                <p className="text-xs text-[var(--text-muted)] mb-3">
+                <p className="text-xs text-[var(--text-muted)] mb-3 text-right">
                   <span className="text-[#E8A93A]">★</span> Headliner attraction
                 </p>
               )}

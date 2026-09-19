@@ -57,4 +57,10 @@ describe('globals.css motion utilities', () => {
     expect(css).toContain('::view-transition-new(root)');
     expect(css).toContain('clip-path: inset(0 0 100% 0)');
   });
+
+  it('defines the bottom-up wash for switching to light mode', () => {
+    expect(css).toContain('@keyframes theme-wash-up');
+    expect(css).toContain('clip-path: inset(100% 0 0 0)');
+    expect(css).toContain('.vt-wash-up');
+  });
 });
