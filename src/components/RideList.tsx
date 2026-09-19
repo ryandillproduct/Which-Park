@@ -10,9 +10,9 @@ const CHIP_BASE = 'text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0';
 
 // Green ≤20min, amber 21-45min, red 46min+ — see plan's Global Constraints.
 function waitTimeChipClass(waitTime: number): string {
-  if (waitTime <= 20) return 'bg-[#E3F6EC] text-[#1E8E5A]';
-  if (waitTime <= 45) return 'bg-[#FEF3D6] text-[#92660A]';
-  return 'bg-[#FCE4E6] text-[#B3273E]';
+  if (waitTime <= 20) return 'bg-[var(--chip-green-bg)] text-[var(--chip-green-tx)]';
+  if (waitTime <= 45) return 'bg-[var(--chip-amber-bg)] text-[var(--chip-amber-tx)]';
+  return 'bg-[var(--chip-red-bg)] text-[var(--chip-red-tx)]';
 }
 
 export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
@@ -33,10 +33,10 @@ export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
           <li
             key={ride.id}
             data-testid="ride-row"
-            className={`animate-ride-row-in flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-white shadow-[0_2px_8px_rgba(28,16,8,0.05)] transition-all duration-200 hover:shadow-[0_4px_14px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 border-l-[3px] ${headliner ? 'border-l-[#F5C842]' : 'border-l-transparent'}`}
+            className={`animate-ride-row-in flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-[var(--surface-raised)] shadow-[0_2px_8px_rgba(28,16,8,0.05)] transition-all duration-200 hover:shadow-[0_4px_14px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 border-l-[3px] ${headliner ? 'border-l-[#F5C842]' : 'border-l-transparent'}`}
             style={{ animationDelay: `${index * 0.05}s` }}
           >
-            <span className="flex items-center gap-2 text-sm text-[#1C1008] min-w-0">
+            <span className="flex items-center gap-2 text-sm text-[var(--text)] min-w-0">
               {headliner && (
                 <span aria-label="Headliner attraction" className="text-[#E8A93A] text-xs">★</span>
               )}
@@ -44,9 +44,9 @@ export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
             </span>
             <span className="flex-shrink-0 ml-3">
               {ride.isStatic ? (
-                <span className="text-sm font-semibold text-[#C4B49A]">—</span>
+                <span className="text-sm font-semibold text-[var(--text-muted)]">—</span>
               ) : !ride.is_open ? (
-                <span data-testid="wait-chip" className={`${CHIP_BASE} bg-[#F0EBE3] text-[#998a73] tracking-wide uppercase`}>
+                <span data-testid="wait-chip" className={`${CHIP_BASE} bg-[var(--chip-gray-bg)] text-[var(--chip-gray-tx)] tracking-wide uppercase`}>
                   Unavailable
                 </span>
               ) : (
@@ -60,16 +60,16 @@ export function RideList({ rides, headlinerNames, showtimesUrl }: Props) {
       })}
       <li
         data-testid="shows-row"
-        className="animate-ride-row-in flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-white shadow-[0_2px_8px_rgba(28,16,8,0.05)] transition-all duration-200 hover:shadow-[0_4px_14px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 border-l-[3px] border-l-transparent"
+        className="animate-ride-row-in flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-[var(--surface-raised)] shadow-[0_2px_8px_rgba(28,16,8,0.05)] transition-all duration-200 hover:shadow-[0_4px_14px_rgba(28,16,8,0.1)] hover:-translate-y-0.5 border-l-[3px] border-l-transparent"
         style={{ animationDelay: `${attractions.length * 0.05}s` }}
       >
-        <span className="text-sm text-[#1C1008] truncate min-w-0">Shows &amp; Fireworks</span>
+        <span className="text-sm text-[var(--text)] truncate min-w-0">Shows &amp; Fireworks</span>
         <span className="flex-shrink-0 ml-3">
           <a
             href={showtimesUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-[#8B7355] underline underline-offset-2 hover:text-[#5C4A2A] transition-colors"
+            className="text-sm font-semibold text-[var(--text-label)] underline underline-offset-2 hover:text-[var(--text)] transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             Showtimes ↗

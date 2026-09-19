@@ -12,7 +12,7 @@ export default function About() {
     <main className="min-h-screen px-4 pt-6 pb-16 max-w-xl mx-auto">
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 -ml-1 px-2 py-2 text-sm text-[#8B7355] hover:text-[#5C4A2A] transition-colors"
+        className="inline-flex items-center gap-1.5 -ml-1 px-2 py-2 text-sm text-[var(--text-label)] hover:text-[var(--text)] transition-colors"
       >
         &larr; Back to today&apos;s rankings
       </Link>
@@ -32,11 +32,11 @@ export default function About() {
             priority
           />
         </div>
-        <p className="font-playfair text-2xl font-bold text-[#1C1008]">Meet the Creator</p>
+        <p className="font-playfair text-2xl font-bold text-[var(--text)]">Meet the Creator</p>
       </div>
 
-      <div className="space-y-4 text-[#5C4A2A] leading-relaxed">
-        <p className="font-playfair text-xl font-semibold text-[#1C1008]">Hi, I&apos;m Ryan.</p>
+      <div className="space-y-4 text-[var(--text)] leading-relaxed">
+        <p className="font-playfair text-xl font-semibold text-[var(--text)]">Hi, I&apos;m Ryan.</p>
         <p>
           As a local who visits the parks often, I kept running into the same problem: most
           crowd-tracking tools are built for vacationers planning weeks or months in advance.
@@ -45,7 +45,7 @@ export default function About() {
         <p>
           But that is not the question I usually need answered. For locals, passholders, and
           frequent visitors, the question is much more immediate:{' '}
-          <span className="font-semibold text-[#1C1008]">Which park should I go to right now?</span>
+          <span className="font-semibold text-[var(--text)]">Which park should I go to right now?</span>
         </p>
         <p>
           So I built WhichPark? to answer that specific question. The app uses live park data
@@ -56,15 +56,15 @@ export default function About() {
         <p>
           No long-range forecasts. No planning calendars. Just today&apos;s conditions,
           translated into one clear recommendation:{' '}
-          <span className="font-semibold text-[#1C1008]">which park looks best to visit right now.</span>
+          <span className="font-semibold text-[var(--text)]">which park looks best to visit right now.</span>
         </p>
       </div>
 
       <div className="mt-10 text-center">
-        <Link href="/" className="text-sm text-[#8B7355] underline underline-offset-2">
+        <Link href="/" className="text-sm text-[var(--text-label)] underline underline-offset-2">
           &larr; Back to today&apos;s rankings
         </Link>
-        <p className="mt-6 text-xs text-[#B5A898]">
+        <p className="mt-6 text-xs text-[var(--text-muted)]">
           WhichPark? is an independent project and is not affiliated with or endorsed by Disney.
         </p>
       </div>

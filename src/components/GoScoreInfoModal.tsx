@@ -12,20 +12,20 @@ export function GoScoreInfoModal({ onClose }: Props) {
     >
       <div
         data-testid="goscore-modal-panel"
-        className="max-w-sm w-full rounded-2xl bg-white p-6 shadow-lg animate-bounce-in"
+        className="max-w-sm w-full rounded-2xl bg-[var(--surface)] p-6 shadow-lg animate-bounce-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3 mb-3">
-          <p className="font-playfair text-lg font-bold text-[#1C1008]">What is Go Score?</p>
+          <p className="font-playfair text-lg font-bold text-[var(--text)]">What is Go Score?</p>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="text-[#B5A898] text-xl leading-none flex-shrink-0"
+            className="text-[var(--text-muted)] text-xl leading-none flex-shrink-0"
           >
             &times;
           </button>
         </div>
-        <p className="text-sm text-[#8B7355]">
+        <p className="text-sm text-[var(--text-label)]">
           Go Score (0–10) rates how good each park is to visit right now. The higher the
           score, the better the visit. It factors in live wait times, crowd levels,
           how much time is left to enjoy the park, and a few park-specific quirks we&apos;ve

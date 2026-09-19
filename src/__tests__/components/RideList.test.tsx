@@ -34,28 +34,28 @@ describe('RideList', () => {
   it('applies the red wait-time chip color for waits of 46 minutes or more', () => {
     render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
     const chip = screen.getByText('60 min');
-    expect(chip).toHaveClass('bg-[#FCE4E6]');
-    expect(chip).toHaveClass('text-[#B3273E]');
+    expect(chip).toHaveClass('bg-[var(--chip-red-bg)]');
+    expect(chip).toHaveClass('text-[var(--chip-red-tx)]');
   });
 
   it('applies the amber wait-time chip color for waits between 21 and 45 minutes', () => {
     render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
     const chip = screen.getByText('30 min');
-    expect(chip).toHaveClass('bg-[#FEF3D6]');
-    expect(chip).toHaveClass('text-[#92660A]');
+    expect(chip).toHaveClass('bg-[var(--chip-amber-bg)]');
+    expect(chip).toHaveClass('text-[var(--chip-amber-tx)]');
   });
 
   it('applies the green wait-time chip color for waits of 20 minutes or less', () => {
     render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
     const chip = screen.getByText('10 min');
-    expect(chip).toHaveClass('bg-[#E3F6EC]');
-    expect(chip).toHaveClass('text-[#1E8E5A]');
+    expect(chip).toHaveClass('bg-[var(--chip-green-bg)]');
+    expect(chip).toHaveClass('text-[var(--chip-green-tx)]');
   });
 
   it('shows a neutral gray chip for closed rides', () => {
     render(<RideList rides={rides} headlinerNames={headlinerNames} showtimesUrl={showtimesUrl} />);
     const chip = screen.getByText('Unavailable');
-    expect(chip).toHaveClass('bg-[#F0EBE3]');
+    expect(chip).toHaveClass('bg-[var(--chip-gray-bg)]');
   });
 
   it('gives headliner rows a gold left border and non-headliner rows a transparent one', () => {
