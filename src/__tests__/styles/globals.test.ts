@@ -61,3 +61,29 @@ describe('globals.css motion utilities', () => {
     expect(css).toContain('inset(0 0 100% 0)');
   });
 });
+
+describe('globals.css closed-park easter eggs', () => {
+  it('defines the fireworks spark animation', () => {
+    expect(css).toContain('@keyframes eggSpark');
+    expect(css).toContain('.egg-spark');
+  });
+  it('defines the rocket launch animation', () => {
+    expect(css).toContain('@keyframes eggLaunch');
+    expect(css).toContain('.egg-rocket');
+  });
+  it('defines the searchlight night, sweep, and clapper snap animations', () => {
+    expect(css).toContain('@keyframes eggNightFade');
+    expect(css).toContain('@keyframes eggSweepL');
+    expect(css).toContain('@keyframes eggSweepR');
+    expect(css).toContain('@keyframes eggSnap');
+    expect(css).toContain('.egg-clap-top');
+  });
+  it('defines the sleeping sloth animation', () => {
+    expect(css).toContain('@keyframes eggSlothIn');
+    expect(css).toContain('.egg-sloth');
+  });
+  it('gates egg motion behind prefers-reduced-motion: no-preference', () => {
+    const eggSection = css.slice(css.indexOf('Closed-park Easter eggs'));
+    expect(eggSection).toContain('prefers-reduced-motion: no-preference');
+  });
+});
