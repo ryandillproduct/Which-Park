@@ -119,7 +119,6 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
         onClick={() => (park.isOpen ? setExpanded((v) => !v) : egg.registerTap())}
         className={`w-full text-left p-5 flex items-center gap-4 ${park.isOpen ? '' : 'cursor-default'}`}
         aria-expanded={expanded}
-        aria-disabled={!park.isOpen}
       >
         <div
           data-testid="icon-badge"

@@ -164,4 +164,9 @@ describe('ParkCard', () => {
     expect(screen.queryByTestId('egg-dots')).not.toBeInTheDocument();
     expect(screen.queryByTestId('egg-magic-kingdom')).not.toBeInTheDocument();
   });
+
+  it('does not mark the closed card button as aria-disabled (it is interactive for the egg)', () => {
+    render(<ParkCard park={closedPark} rank={null} headlinerNames={[]} />);
+    expect(screen.getByRole('button')).not.toHaveAttribute('aria-disabled');
+  });
 });
