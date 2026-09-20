@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const TAPS_TO_TRIGGER = 3;
+const TAPS_TO_TRIGGER = 1;
 
 export function useClosedParkEgg(): {
   dots: number;

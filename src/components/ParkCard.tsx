@@ -140,11 +140,6 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
           {(park.hours || !park.isOpen) && (
             <p className="text-xs text-[var(--text-muted)] mt-0.5">
               {park.isOpen ? park.hours : park.hours ? `Closed · ${park.hours}` : 'Closed'}
-              {!park.isOpen && egg.dots > 0 && (
-                <span data-testid="egg-dots" className="ml-2 tracking-widest text-[var(--icon-muted)]">
-                  {'•'.repeat(egg.dots)}
-                </span>
-              )}
             </p>
           )}
           {park.isOpen && (
