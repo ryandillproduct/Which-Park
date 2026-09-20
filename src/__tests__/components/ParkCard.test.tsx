@@ -131,4 +131,37 @@ describe('ParkCard', () => {
     render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
     expect(screen.queryByText(/avg wait across open attractions/)).not.toBeInTheDocument();
   });
+
+  it('shows build-up dots after tapping a closed card once, without playing an effect', () => {
+    render(<ParkCard park={closedPark} rank={null} headlinerNames={[]} />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.getByTestId('egg-dots')).toHaveTextContent('•');
+    expect(screen.queryByTestId('egg-magic-kingdom')).not.toBeInTheDocument();
+  });
+
+  it('plays the park-specific egg after three taps on a closed card', () => {
+    render(<ParkCard park={closedPark} rank={null} headlinerNames={[]} />);
+    const btn = screen.getByRole('button');
+    fireEvent.click(btn);
+    fireEvent.click(btn);
+    fireEvent.click(btn);
+    expect(screen.getByTestId('egg-magic-kingdom')).toBeInTheDocument();
+  });
+
+  it('renders the EPCOT egg for an EPCOT closed card', () => {
+    const epcotClosed = { ...closedPark, name: 'EPCOT', silhouetteKey: 'epcot' as const };
+    render(<ParkCard park={epcotClosed} rank={null} headlinerNames={[]} />);
+    const btn = screen.getByRole('button');
+    fireEvent.click(btn);
+    fireEvent.click(btn);
+    fireEvent.click(btn);
+    expect(screen.getByTestId('egg-epcot')).toBeInTheDocument();
+  });
+
+  it('does not mount an egg on an open card, and does not show egg dots', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.queryByTestId('egg-dots')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('egg-magic-kingdom')).not.toBeInTheDocument();
+  });
 });

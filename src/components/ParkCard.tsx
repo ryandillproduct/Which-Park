@@ -5,6 +5,8 @@ import { ScoredPark } from '@/types';
 import { ParkSilhouette } from './ParkSilhouette';
 import { RideList } from './RideList';
 import { GoScoreFactors } from './GoScoreFactors';
+import { useClosedParkEgg } from './easter-eggs/useClosedParkEgg';
+import { ParkEggEffect } from './easter-eggs/ParkEggEffect';
 
 interface Props {
   park: ScoredPark;
@@ -97,6 +99,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
   const fillPercent = park.isOpen ? (park.goScore / 10) * 100 : 0;
   const { gradient: barGradient, glow: barGlow } = goScoreBarStyle(park.goScore);
   const minutesUntilClose = useLiveMinutesUntilClose(park.closingTimeMs);
+  const egg = useClosedParkEgg();
 
   return (
     <div
@@ -113,7 +116,7 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
         </div>
       )}
       <button
-        onClick={() => park.isOpen && setExpanded((v) => !v)}
+        onClick={() => (park.isOpen ? setExpanded((v) => !v) : egg.registerTap())}
         className={`w-full text-left p-5 flex items-center gap-4 ${park.isOpen ? '' : 'cursor-default'}`}
         aria-expanded={expanded}
         aria-disabled={!park.isOpen}
@@ -138,6 +141,11 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
           {(park.hours || !park.isOpen) && (
             <p className="text-xs text-[var(--text-muted)] mt-0.5">
               {park.isOpen ? park.hours : park.hours ? `Closed · ${park.hours}` : 'Closed'}
+              {!park.isOpen && egg.dots > 0 && (
+                <span data-testid="egg-dots" className="ml-2 tracking-widest text-[var(--icon-muted)]">
+                  {'•'.repeat(egg.dots)}
+                </span>
+              )}
             </p>
           )}
           {park.isOpen && (
@@ -190,6 +198,9 @@ export function ParkCard({ park, rank, headlinerNames }: Props) {
           </div>
         </div>
       </div>
+      {!park.isOpen && (
+        <ParkEggEffect silhouetteKey={park.silhouetteKey} playToken={egg.playToken} />
+      )}
     </div>
   );
 }
