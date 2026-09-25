@@ -11,7 +11,19 @@ const GRADIENT: Record<Tone, string> = {
   mid: 'linear-gradient(90deg, #F6D97A, #E3B23C)',
   bad: 'linear-gradient(90deg, #F3A8B4, #E36074)',
 };
-const FILL: Record<Tone, number> = { good: 85, mid: 52, bad: 22 };
+// Bar length follows the raw value on a linear scale (label + color stay banded),
+// so two parks sharing a label still show which one is ahead.
+const clampFill = (v: number) => Math.max(6, Math.min(100, Math.round(v)));
+const waitFill = (mins: number) => clampFill(100 - mins * 1.25); // 0 min full, ~75 min floor
+const crowdFill = (score: number) => clampFill((11 - score) * 10); // 1/10 full
+const timeFill = (mins: number) => clampFill((mins / 600) * 100); // 10+ hrs full
+
+function formatHours(mins: number): string {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h === 0) return `${m}m`;
+  return m === 0 ? `${h}h` : `${h}h ${m}m`;
+}
 
 function waitBand(mins: number): { label: string; tone: Tone } {
   if (mins <= 20) return { label: 'Short', tone: 'good' };
@@ -29,18 +41,21 @@ function timeBand(mins: number): { label: string; tone: Tone } {
   return { label: 'Closing soon', tone: 'bad' };               // under 1 hr
 }
 
-function Meter({ label, value, tone, testid }: { label: string; value: string; tone: Tone; testid: string }) {
+function Meter({ label, value, raw, fill, tone, testid }: { label: string; value: string; raw: string; fill: number; tone: Tone; testid: string }) {
   return (
     <div className="mb-3 last:mb-0">
       <div className="flex justify-between text-xs mb-1">
         <span className="text-[var(--text-label)]">{label}</span>
-        <span className="text-[var(--text)] font-semibold">{value}</span>
+        <span className="text-[var(--text)]">
+          <span className="font-semibold">{value}</span>
+          <span className="text-[var(--text-muted)]"> · {raw}</span>
+        </span>
       </div>
       <div className="h-1.5 rounded-full bg-[var(--track)] overflow-hidden">
         <div
           data-testid={testid}
           className="h-full rounded-full"
-          style={{ width: `${FILL[tone]}%`, background: GRADIENT[tone] }}
+          style={{ width: `${fill}%`, background: GRADIENT[tone] }}
         />
       </div>
     </div>
@@ -55,9 +70,11 @@ export function GoScoreFactors({ headlinerWaitMinutes, crowdScore, minutesUntilC
   return (
     <div className="mb-4">
       <p className="text-[10px] font-bold tracking-wider uppercase text-[var(--text-muted)] mb-3">Go Score factors</p>
-      <Meter label="Headliner attraction wait times" value={waits.label} tone={waits.tone} testid="meter-fill-waits" />
-      <Meter label="Crowd level" value={crowd.label} tone={crowd.tone} testid="meter-fill-crowd" />
-      {time && <Meter label="Park hours remaining" value={time.label} tone={time.tone} testid="meter-fill-time" />}
+      <Meter label="Headliner attraction wait times" value={waits.label} raw={`${headlinerWaitMinutes} min`} fill={waitFill(headlinerWaitMinutes)} tone={waits.tone} testid="meter-fill-waits" />
+      <Meter label="Crowd level" value={crowd.label} raw={`${crowdScore}/10`} fill={crowdFill(crowdScore)} tone={crowd.tone} testid="meter-fill-crowd" />
+      {time && minutesUntilClose !== null && (
+        <Meter label="Park hours remaining" value={time.label} raw={formatHours(Math.max(0, minutesUntilClose))} fill={timeFill(minutesUntilClose)} tone={time.tone} testid="meter-fill-time" />
+      )}
     </div>
   );
 }

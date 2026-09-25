@@ -44,6 +44,21 @@ describe('GoScoreFactors', () => {
     expect(parseInt(waits.style.width)).toBeGreaterThan(parseInt(crowd.style.width));
   });
 
+  it('gives a longer bar to the shorter wait even when both share a label', () => {
+    const { rerender } = render(<GoScoreFactors headlinerWaitMinutes={36} crowdScore={5} minutesUntilClose={400} />);
+    const a = parseInt(screen.getByTestId('meter-fill-waits').style.width);
+    rerender(<GoScoreFactors headlinerWaitMinutes={40} crowdScore={5} minutesUntilClose={400} />);
+    const b = parseInt(screen.getByTestId('meter-fill-waits').style.width);
+    expect(a).toBeGreaterThan(b);
+  });
+
+  it('shows the raw values next to each label', () => {
+    render(<GoScoreFactors headlinerWaitMinutes={36} crowdScore={5} minutesUntilClose={425} />);
+    expect(screen.getByText('· 36 min')).toBeInTheDocument();
+    expect(screen.getByText('· 5/10')).toBeInTheDocument();
+    expect(screen.getByText('· 7h 5m')).toBeInTheDocument();
+  });
+
   it('omits the time meter when the closing time is unknown', () => {
     render(<GoScoreFactors headlinerWaitMinutes={20} crowdScore={4} minutesUntilClose={null} />);
     expect(screen.queryByText('Park hours remaining')).not.toBeInTheDocument();
