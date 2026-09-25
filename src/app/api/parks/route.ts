@@ -126,15 +126,21 @@ function roundToHalf(value: number): number {
 function tiebreakerReason(
   winner: ScoredPark & { goScore: number },
   loser: ScoredPark & { goScore: number }
-): string | null {
+): { note: string; tie: { rival: string; reason: string } } | null {
   if (roundToHalf(winner.goScore) !== roundToHalf(loser.goScore)) {
     return null;
   }
   if (winner.headlinerWaitMinutes !== loser.headlinerWaitMinutes) {
-    return `Shorter headliner waits than ${loser.name}`;
+    return {
+      note: `Shorter headliner waits than ${loser.name}`,
+      tie: { rival: loser.name, reason: 'shorter headliner waits' },
+    };
   }
   if (winner.openAttractionCount !== loser.openAttractionCount) {
-    return `More open attractions than ${loser.name}`;
+    return {
+      note: `More open attractions than ${loser.name}`,
+      tie: { rival: loser.name, reason: 'more open attractions' },
+    };
   }
   return null;
 }
@@ -244,10 +250,9 @@ export async function GET() {
 
     const withGoScore = withScores.map((park, i) => {
       const next = i < withScores.length - 1 ? withScores[i + 1] : null;
-      const tiebreakerNote =
-        park.isOpen && next?.isOpen ? tiebreakerReason(park, next) ?? undefined : undefined;
+      const tb = park.isOpen && next?.isOpen ? tiebreakerReason(park, next) : null;
 
-      return { ...park, tiebreakerNote };
+      return { ...park, tiebreakerNote: tb?.note, tie: tb?.tie };
     });
 
     const recommendation = buildRecommendation(withGoScore);

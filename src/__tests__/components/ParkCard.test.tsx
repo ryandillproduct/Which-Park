@@ -108,6 +108,24 @@ describe('ParkCard', () => {
     expect(strip).toHaveTextContent('about 1 hr 30 min left until close');
   });
 
+  it('explains a won tie inside the #1 top pick strip', () => {
+    const tied: ScoredPark = {
+      ...openPark,
+      goScore: 7.4,
+      tiebreakerNote: 'Shorter headliner waits than Hollywood Studios',
+      tie: { rival: 'Hollywood Studios', reason: 'shorter headliner waits' },
+    };
+    render(<ParkCard park={tied} rank={1} headlinerNames={[]} />);
+    expect(screen.getByTestId('top-pick-tie')).toHaveTextContent(
+      'Tied with Hollywood Studios at 7.5, ranked first for shorter headliner waits.'
+    );
+  });
+
+  it('shows no tie line on the #1 strip when there was no tie', () => {
+    render(<ParkCard park={openPark} rank={1} headlinerNames={[]} />);
+    expect(screen.queryByTestId('top-pick-tie')).not.toBeInTheDocument();
+  });
+
   it('does not render the top pick strip for lower-ranked cards', () => {
     render(<ParkCard park={openPark} rank={2} headlinerNames={[]} />);
     expect(screen.queryByTestId('top-pick-strip')).not.toBeInTheDocument();

@@ -90,6 +90,11 @@ function TopPickStrip({ park, minutesUntilClose }: { park: ScoredPark; minutesUn
         <span className="font-bold text-[var(--strip-lead)]">Top pick right now —</span>{' '}
         {park.headlinerWaitMinutes} min average wait, {crowdWord(park.score)} crowds, and {timeClause(minutesUntilClose)}.
       </p>
+      {park.tie && (
+        <p data-testid="top-pick-tie" className="mt-1 text-[11px] leading-snug italic text-[var(--text-muted)]">
+          Tied with {park.tie.rival} at {(Math.round(park.goScore * 2) / 2).toFixed(1)}, ranked first for {park.tie.reason}.
+        </p>
+      )}
     </div>
   );
 }

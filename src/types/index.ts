@@ -28,6 +28,7 @@ export interface ScoredPark extends ParkMeta {
   goScore: number;
   openAttractionCount: number;
   tiebreakerNote?: string;
+  tie?: { rival: string; reason: string }; // set when this park won a Go Score tie against the next park
 }
 
 export interface Recommendation {
